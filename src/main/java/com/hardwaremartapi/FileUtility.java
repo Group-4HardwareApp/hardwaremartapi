@@ -24,7 +24,7 @@ public class FileUtility {
     	
     	HashMap<String, String> hm = new HashMap();
     	hm.put("firebaseStorageDownloadTokens", "34345456565dfg");
-    	BlobId blobId = BlobId.of("http://hardwaremaetapi.appspot.com/", file.getOriginalFilename());
+    	BlobId blobId = BlobId.of("http://hardwaremartapi.appspot.com/", file.getOriginalFilename());
     	
     	BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
     			.setContentType("image/jpeg")
@@ -36,9 +36,7 @@ public class FileUtility {
     	fos.write(file.getBytes());
     	fos.close();
     	Blob blob = storage.create(blobInfo,Files.readAllBytes(convertedFile.toPath()));
-        String imageUrl = "https://firebasestorage.googleapis.com/v0/b/hardwaremaetapi.appspot.com/o/\"+convertedFile+\"?alt=media&token=3434434343434dfdf";
-       // System.out.println("Image Url : " + imageUrl);
+        String imageUrl = "https://firebasestorage.googleapis.com/v0/b/hardwaremartapi.appspot.com/o/"+convertedFile+"?alt=media&token=3434434343434dfdf";
         return imageUrl;
-    	
     } 
 }
