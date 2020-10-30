@@ -15,6 +15,7 @@ import com.hardwaremartapi.bean.Category;
 
 @Service
 public class CategoryService {
+	
   public List<Category> getCategoryList() throws InterruptedException, ExecutionException{
 	  List<Category> categoryList = new ArrayList<>();
 	  Firestore fireStore = FirestoreClient.getFirestore();
@@ -26,6 +27,7 @@ public class CategoryService {
       }
       return categoryList;
   }
+  
   public Category getCategoryById(String categoryId) throws InterruptedException, ExecutionException {
 	  Firestore fireStore = FirestoreClient.getFirestore();
 	  Category category = fireStore.collection("Category").document(categoryId).get().get().toObject(Category.class);

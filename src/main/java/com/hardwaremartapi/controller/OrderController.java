@@ -1,6 +1,8 @@
 package com.hardwaremartapi.controller;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -46,10 +48,19 @@ public class OrderController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> getOrderById(@PathVariable("id") String id) throws InterruptedException, ExecutionException, ResourceNotFoundException{
-		Order order = orderService.getOrders(id);
+		Order order = orderService.getOrderById(id);
 	    if(order!=null)
 	    	return new ResponseEntity<Order>(order,HttpStatus.OK);
 	    else
 	    	throw new ResourceNotFoundException("Order not found");
 	  }	
+	
+	@GetMapping("/status/{userId}")
+	public ResponseEntity<List<Order>> getOrders(@PathVariable("userId") String userId) throws Exception {
+		ArrayList<Order> order = orderService.getOrders(userId);
+		if (order != null)
+			return new ResponseEntity<List<Order>>(order, HttpStatus.OK);
+		else
+			throw new ResourceNotFoundException("Order not found");
+	}
 }

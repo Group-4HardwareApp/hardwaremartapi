@@ -3,6 +3,7 @@ package com.hardwaremartapi.service;
 import java.io.IOException;
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -35,7 +36,7 @@ public class OrderService {
 		return order;
 	}
 	
-	public Order getOrders(String id) throws InterruptedException, ExecutionException  {
+	public Order getOrderById(String id) throws InterruptedException, ExecutionException  {
         Order order = fireStore.collection("Order").document(id).get().get().toObject(Order.class);
 		return order;
 	}
@@ -47,4 +48,16 @@ public class OrderService {
 		}    
 		return order;
 	}	
+	
+	public ArrayList<Order> getOrders(String currentUserId) throws Exception, Exception {
+		ArrayList<Order> list = new ArrayList<Order>();
+		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Order").whereIn("shippingStatus",Arrays.asList("Delivered","Cancelled")).get();
+		QuerySnapshot querySnapshot = apiFuture.get();
+		List<QueryDocumentSnapshot> documentSnapshotList = querySnapshot.getDocuments();
+        for (QueryDocumentSnapshot document : documentSnapshotList) {
+			Order order = document.toObject(Order.class);
+			list.add(order);
+		}
+		return list;
+	}
 }
