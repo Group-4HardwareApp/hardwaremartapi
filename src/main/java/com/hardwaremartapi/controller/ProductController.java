@@ -33,8 +33,7 @@ public class ProductController {
 
 	@PostMapping("/")
 	public ResponseEntity<?> saveProduct(@RequestParam("file") MultipartFile file,
-			@RequestParam("categoryId") String categoryId, 
-			@RequestParam("shopKeeperId") String shopKeeperId,
+			@RequestParam("categoryId") String categoryId, @RequestParam("shopKeeperId") String shopKeeperId,
 			@RequestParam("name") String name, @RequestParam("price") double price,
 			@RequestParam("discount") double discount, @RequestParam("brand") String brand,
 			@RequestParam("qtyInStock") int qtyInStock, @RequestParam("description") String description)
@@ -119,23 +118,16 @@ public class ProductController {
 		return new ResponseEntity<List<Product>>(productList, HttpStatus.OK);
 	}
 
-	
-	
-	
-	
 	@PostMapping("/updateproduct")
-	public ResponseEntity<Product> updateProduct(
-			@RequestParam("categoryId") String categoryId, 
-			@RequestParam("productId") String productId,
-			@RequestParam("name") String name,
-			@RequestParam("price") double price, 
-			@RequestParam("discount") double discount,
-			@RequestParam("brand") String brand,
-			@RequestParam("qtyInStock") int qtyInStock,
-			@RequestParam("description") String description) throws IOException, InterruptedException, ExecutionException 
-	
+	public ResponseEntity<Product> updateProduct(@RequestParam("categoryId") String categoryId,
+			@RequestParam("productId") String productId, @RequestParam("name") String name,
+			@RequestParam("price") double price, @RequestParam("discount") double discount,
+			@RequestParam("brand") String brand, @RequestParam("qtyInStock") int qtyInStock,
+			@RequestParam("description") String description)
+			throws IOException, InterruptedException, ExecutionException
+
 	{
-		
+
 		Product product = new Product();
 		product.setProductId(productId);
 		product.setCategoryId(categoryId);
@@ -147,28 +139,14 @@ public class ProductController {
 		product.setQtyInStock(qtyInStock);
 		Product p = productService.updateProduct(product);
 		return new ResponseEntity<Product>(p, HttpStatus.OK);
-		
+
 	}
-	
-	
+
 	@PostMapping("/updateproductimg")
-	
 	public ResponseEntity<Product> updateProductImage(@RequestParam("file") MultipartFile file,
-			@RequestParam("productId") String productId) throws InterruptedException, ExecutionException, IOException
-	{
-		
-		Product p = productService.updateProductImage(file,productId);
-		
+			@RequestParam("productId") String productId) throws InterruptedException, ExecutionException, IOException {
+		Product p = productService.updateProductImage(file, productId);
 		return new ResponseEntity<Product>(p, HttpStatus.OK);
-
 	}
-	
-	
-	
-	
-	
-	
-	
-
 
 }
