@@ -116,8 +116,6 @@ public class ProductService {
 		return pl;
 	}
 	
-	
-
 	public Product updateProduct(Product product) throws IOException, InterruptedException, ExecutionException {
 
 		Firestore fireStore = FirestoreClient.getFirestore();
@@ -129,24 +127,15 @@ public class ProductService {
 		return product;
 	}
 
-	
-	
-	
 	public Product updateProductImage(MultipartFile file,String productId) throws InterruptedException, ExecutionException, IOException
 	{
 		Firestore fireStore = FirestoreClient.getFirestore();
 		Product product = fireStore.collection("Product").document(productId).get().get().toObject(Product.class);
-		
-		
 		FileUtility fileUtility = new FileUtility();
 		String imageUrl = fileUtility.uploadFile(file);
 		product.setImageUrl(imageUrl);
-		
-		fireStore.collection("Product").document(productId).set(product);
-		
-		
-		return product;
-		
+		fireStore.collection("Product").document(productId).set(product);	
+		return product;		
 	}
 
 }
