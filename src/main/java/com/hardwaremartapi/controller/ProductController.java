@@ -33,7 +33,8 @@ public class ProductController {
 
 	@PostMapping("/")
 	public ResponseEntity<?> saveProduct(@RequestParam("file") MultipartFile file,
-			@RequestParam("categoryId") String categoryId, @RequestParam("shopKeeperId") String shopKeeperId,
+			@RequestParam("categoryId") String categoryId, 
+			@RequestParam("shopKeeperId") String shopKeeperId,
 			@RequestParam("name") String name, @RequestParam("price") double price,
 			@RequestParam("discount") double discount, @RequestParam("brand") String brand,
 			@RequestParam("qtyInStock") int qtyInStock, @RequestParam("description") String description)
@@ -45,6 +46,7 @@ public class ProductController {
 
 		Product product = new Product();
 		product.setCategoryId(categoryId);
+		product.setShopKeeperId(shopKeeperId);
 		product.setName(name);
 		product.setPrice(price);
 		product.setDiscount(discount);

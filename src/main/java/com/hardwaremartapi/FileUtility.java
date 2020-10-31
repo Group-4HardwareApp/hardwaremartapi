@@ -23,8 +23,8 @@ public class FileUtility {
     			.setCredentials(GoogleCredentials.fromStream(serviceAccount)).build().getService();
     	
     	HashMap<String, String> hm = new HashMap();
-    	hm.put("firebaseStorageDownloadTokens", "34345456565dfg");
-    	BlobId blobId = BlobId.of("http://hardwaremartapi.appspot.com/", file.getOriginalFilename());
+    	hm.put("firebaseStorageDownloadTokens", "3434434343434dfdf");
+    	BlobId blobId = BlobId.of("hardwaremartapi.appspot.com", file.getOriginalFilename());
     	
     	BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
     			.setContentType("image/jpeg")
