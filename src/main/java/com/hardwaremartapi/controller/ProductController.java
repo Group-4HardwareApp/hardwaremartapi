@@ -45,7 +45,7 @@ public class ProductController {
 
 		Product product = new Product();
 		product.setCategoryId(categoryId);
-		product.setshopKeeperId(shopKeeperId);
+		product.setShopKeeperId(shopKeeperId);
 		product.setName(name);
 		product.setPrice(price);
 		product.setDiscount(discount);
