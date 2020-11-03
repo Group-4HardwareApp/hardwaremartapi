@@ -123,6 +123,7 @@ public class ProductService {
 		product.setTimestamp(System.currentTimeMillis());
 		product.setShopKeeperId(p0.getShopKeeperId());
 		product.setImageUrl(p0.getImageUrl());
+		product.setCategoryId(p0.getCategoryId());
 		fireStore.collection("Product").document(product.getProductId()).set(product);
 		return product;
 	}

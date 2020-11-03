@@ -32,7 +32,7 @@ public class ProductController {
 	ProductService productService;
 
 	@PostMapping("/")
-	public ResponseEntity<?> saveProduct(@RequestParam("file") MultipartFile file,
+	public ResponseEntity<Product> saveProduct(@RequestParam("file") MultipartFile file,
 			@RequestParam("categoryId") String categoryId, @RequestParam("shopKeeperId") String shopKeeperId,
 			@RequestParam("name") String name, @RequestParam("price") double price,
 			@RequestParam("discount") double discount, @RequestParam("brand") String brand,
@@ -57,7 +57,7 @@ public class ProductController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteProduct(@PathVariable("id") String id)
+	public ResponseEntity<Product> deleteProduct(@PathVariable("id") String id)
 			throws InterruptedException, ExecutionException, ResourceNotFoundException {
 		Product p = productService.deleteProduct(id);
 		if (p != null) {
@@ -68,7 +68,7 @@ public class ProductController {
 	}
 
 	@GetMapping("/view/{id}")
-	public ResponseEntity<?> viewProduct(@PathVariable("id") String id)
+	public ResponseEntity<Product> viewProduct(@PathVariable("id") String id)
 			throws InterruptedException, ExecutionException, ResourceNotFoundException {
 		Product p = productService.viewProduct(id);
 		if (p != null) {
@@ -118,26 +118,8 @@ public class ProductController {
 	}
 
 	@PostMapping("/updateproduct")
-	public ResponseEntity<Product> updateProduct(
-			@RequestParam("categoryId") String categoryId, 
-			@RequestParam("productId") String productId,
-			@RequestParam("name") String name,
-			@RequestParam("price") double price, 
-			@RequestParam("discount") double discount,
-			@RequestParam("brand") String brand,
-			@RequestParam("qtyInStock") int qtyInStock,
-			@RequestParam("description") String description) throws IOException, InterruptedException, ExecutionException 
+	public ResponseEntity<Product> updateProduct(Product product) throws IOException, InterruptedException, ExecutionException 
 	{
-		
-		Product product = new Product();
-		product.setProductId(productId);
-		product.setCategoryId(categoryId);
-		product.setName(name);
-		product.setPrice(price);
-		product.setDiscount(discount);
-		product.setBrand(brand);
-		product.setDescription(description);
-		product.setQtyInStock(qtyInStock);
 		Product p = productService.updateProduct(product);
 		return new ResponseEntity<Product>(p, HttpStatus.OK);
 		
