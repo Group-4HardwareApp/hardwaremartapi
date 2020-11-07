@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.commons.lang3.ObjectUtils.Null;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -90,13 +91,14 @@ public class ProductService {
 		ArrayList<Product> pl = new ArrayList<Product>();
 		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Product").orderBy("discount", Direction.DESCENDING)
 				.limit(10).get();
+
 		QuerySnapshot querySnapshot = apiFuture.get();
 		List<QueryDocumentSnapshot> documentSnapshotList = querySnapshot.getDocuments();
 		for (QueryDocumentSnapshot document : documentSnapshotList) {
 			Product product = document.toObject(Product.class);
 			double discount = product.getDiscount();
 			if (discount > 0) {
-				pl.add(product); 
+				pl.add(product);
 			}
 		}
 		return pl;
@@ -119,7 +121,8 @@ public class ProductService {
 	public Product updateProduct(Product product) throws IOException, InterruptedException, ExecutionException {
 
 		Firestore fireStore = FirestoreClient.getFirestore();
-		Product p0 = fireStore.collection("Product").document(product.getProductId()).get().get().toObject(Product.class);
+		Product p0 = fireStore.collection("Product").document(product.getProductId()).get().get()
+				.toObject(Product.class);
 		product.setTimestamp(System.currentTimeMillis());
 		product.setShopKeeperId(p0.getShopKeeperId());
 		product.setImageUrl(p0.getImageUrl());
@@ -128,14 +131,34 @@ public class ProductService {
 		return product;
 	}
 
-	public Product updateProductImage(MultipartFile file,String productId) throws InterruptedException, ExecutionException, IOException
-	{
+	public Product updateProductImage(MultipartFile file, String productId)
+			throws InterruptedException, ExecutionException, IOException {
 		Firestore fireStore = FirestoreClient.getFirestore();
 		Product product = fireStore.collection("Product").document(productId).get().get().toObject(Product.class);
 		FileUtility fileUtility = new FileUtility();
 		String imageUrl = fileUtility.uploadFile(file);
 		product.setImageUrl(imageUrl);
 		fireStore.collection("Product").document(productId).set(product);
-		return product;		
+		return product;
 	}
+
+	public ArrayList<Product> viewProductOfShopkeeper(String name, String id)
+			throws InterruptedException, ExecutionException {
+		Firestore fireStore = FirestoreClient.getFirestore();
+		ArrayList<Product> pl = new ArrayList<Product>();
+		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Product").get();
+		QuerySnapshot querySnapshot = apiFuture.get();
+		List<QueryDocumentSnapshot> documentSnapshotList = querySnapshot.getDocuments();
+		for (QueryDocumentSnapshot document : documentSnapshotList) {
+			Product product = document.toObject(Product.class);
+			name = name.toLowerCase();
+			String doc = product.getName().toLowerCase();
+			String doc2 = product.getShopKeeperId();
+			if (doc.contains(name) && doc2.contains(id)) {
+				pl.add(product);
+			}
+		}
+		return pl;
+	}
+
 }

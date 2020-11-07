@@ -118,21 +118,30 @@ public class ProductController {
 	}
 
 	@PostMapping("/updateproduct")
-	public ResponseEntity<Product> updateProduct(Product product) throws IOException, InterruptedException, ExecutionException 
-	{
+	public ResponseEntity<Product> updateProduct(Product product)
+			throws IOException, InterruptedException, ExecutionException {
 		Product p = productService.updateProduct(product);
 		return new ResponseEntity<Product>(p, HttpStatus.OK);
-		
+
 	}
-	
-	@PostMapping("/updateproductimg")	
+
+	@PostMapping("/updateproductimg")
 	public ResponseEntity<Product> updateProductImage(@RequestParam("file") MultipartFile file,
-			@RequestParam("productId") String productId) throws InterruptedException, ExecutionException, IOException
-	{
-		Product p = productService.updateProductImage(file,productId);	
+			@RequestParam("productId") String productId) throws InterruptedException, ExecutionException, IOException {
+		Product p = productService.updateProductImage(file, productId);
 		return new ResponseEntity<Product>(p, HttpStatus.OK);
 	}
-	
-	
-	
+
+	@GetMapping("/shopkeeperproducts/{name}/{shopkeeperId}")
+	public ResponseEntity<List<Product>> viewProductOfShopkeeper(@PathVariable("name") String name,
+			@PathVariable("shopkeeperId") String id)
+			throws InterruptedException, ExecutionException, ResourceNotFoundException {
+		ArrayList<Product> productList = productService.viewProductOfShopkeeper(name, id);
+		if (productList != null) {
+			return new ResponseEntity<List<Product>>(productList, HttpStatus.OK);
+		} else {
+			throw new ResourceNotFoundException("Product Not Found");
+		}
+	}
+
 }
