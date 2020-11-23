@@ -145,16 +145,17 @@ public class ProductController {
 		}
 	}
 	
-	 @GetMapping("/productlist/{categoryId}/{shopkeerperId}")
-       public ResponseEntity<List<Product>> getProductByCategoryAndShopKeeper(@PathVariable("categoryId") String categoryId,@PathVariable("shop
-                       throws InterruptedException, ExecutionException, ResourceNotFoundException {
-               ArrayList<Product> productList = productService.getProductByCategoryAndShopKeeper(categoryId,shopkeerperId);
-               if (productList != null) {
-                       return new ResponseEntity<List<Product>>(productList, HttpStatus.OK);
-               } else {
-                       throw new ResourceNotFoundException("Product Not Found");
-               }
-       }
+		@GetMapping("/productlist/{categoryId}/{shopkeerperId}")
+	public ResponseEntity<List<Product>> getProductByCategoryAndShopKeeper(@PathVariable("categoryId") String categoryId,@PathVariable("shopkeerperId") String shopkeerperId   )
+			throws InterruptedException, ExecutionException, ResourceNotFoundException {
+		ArrayList<Product> productList = productService.getProductByCategoryAndShopKeeper(categoryId,shopkeerperId);
+		if (productList != null) {
+			return new ResponseEntity<List<Product>>(productList, HttpStatus.OK);
+		} else {
+			throw new ResourceNotFoundException("Product Not Found");
+		}
+	}
+
 
 	
 	
