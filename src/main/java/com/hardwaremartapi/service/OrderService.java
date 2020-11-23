@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.api.core.ApiFuture;
+import com.google.api.core.ApiFutures;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
@@ -55,6 +56,17 @@ public class OrderService {
 		QuerySnapshot querySnapshot = apiFuture.get();
 		List<QueryDocumentSnapshot> documentSnapshotList = querySnapshot.getDocuments();
         for (QueryDocumentSnapshot document : documentSnapshotList) {
+			Order order = document.toObject(Order.class);
+			list.add(order);
+		}
+		return list;
+	}
+	public ArrayList<Order> getOrderOfCurrentUser(String currentUserId) throws InterruptedException, ExecutionException{
+		ArrayList<Order> list = new ArrayList<>();
+		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Order").whereEqualTo("userId", currentUserId).get();
+		QuerySnapshot snapshot = apiFuture.get();
+		List<QueryDocumentSnapshot> documentSnapshotsList = snapshot.getDocuments();
+		for(QueryDocumentSnapshot document : documentSnapshotsList) {
 			Order order = document.toObject(Order.class);
 			list.add(order);
 		}

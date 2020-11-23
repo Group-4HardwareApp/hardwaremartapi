@@ -63,4 +63,13 @@ public class OrderController {
 		else
 			throw new ResourceNotFoundException("Order not found");
 	}
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<List<Order>> getOrderOfCurrentUser(@PathVariable("userId") String userId) throws InterruptedException, ExecutionException, ResourceNotFoundException{
+		ArrayList<Order> order = orderService.getOrderOfCurrentUser(userId);
+		if (order != null)
+			return new ResponseEntity<List<Order>>(order, HttpStatus.OK);
+		else
+			throw new ResourceNotFoundException("Order not found");
+		
+	}
 }
