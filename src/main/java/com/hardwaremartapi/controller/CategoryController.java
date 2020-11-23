@@ -35,4 +35,20 @@ public class CategoryController {
      else
     	 return new ResponseEntity<Category>(c,HttpStatus.OK);
   }
+	
+@PostMapping("/save")
+  public ResponseEntity<Category> saveCategory(@RequestParam("file") MultipartFile file,
+		  @RequestParam("categoryName") String categoryName) throws Exception {
+	  if(file.isEmpty())
+		  throw new ResourceNotFoundException("File not found");
+	 
+	  Category category = new Category();
+	  category.setCategoryName(categoryName);
+	  
+	  Category c = categoryService.saveCategory(file, category);
+	  return new ResponseEntity<Category>(c,HttpStatus.OK);
+  }	
+	
+	
+	
 }
