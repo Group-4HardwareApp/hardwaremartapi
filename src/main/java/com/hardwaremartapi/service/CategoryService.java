@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.stereotype.Service;
-
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import com.hardwaremartapi.FileUtility;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
@@ -33,4 +35,19 @@ public class CategoryService {
 	  Category category = fireStore.collection("Category").document(categoryId).get().get().toObject(Category.class);
       return category;
   }
+	
+	
+ public Category saveCategory(MultipartFile file, Category category) throws IOException {	
+		Firestore fireStore = FirestoreClient.getFirestore();
+		FileUtility fileUtility = new FileUtility();
+		String imageUrl = fileUtility.uploadFile(file);
+		category.setImageUrl(imageUrl);
+		String categoryId = fireStore.collection("Category").document().getId().toString();
+		category.setCategoryId(categoryId);
+		fireStore.collection("Category").document(categoryId).set(category);
+		return category;
+	}
+  	
+	
+	
 }

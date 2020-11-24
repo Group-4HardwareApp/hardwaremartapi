@@ -18,6 +18,7 @@ import com.hardwaremartapi.bean.Product;
 import com.hardwaremartapi.exception.ErrorDetails;
 import com.hardwaremartapi.exception.ResourceNotFoundException;
 import com.hardwaremartapi.service.ProductService;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -118,7 +119,7 @@ public class ProductController {
 	}
 
 	@PostMapping("/updateproduct")
-	public ResponseEntity<Product> updateProduct(Product product)
+	public ResponseEntity<Product> updateProduct(@RequestBody Product product)
 			throws IOException, InterruptedException, ExecutionException {
 		Product p = productService.updateProduct(product);
 		return new ResponseEntity<Product>(p, HttpStatus.OK);
@@ -143,5 +144,20 @@ public class ProductController {
 			throw new ResourceNotFoundException("Product Not Found");
 		}
 	}
+	
+		@GetMapping("/productlist/{categoryId}/{shopkeerperId}")
+	public ResponseEntity<List<Product>> getProductByCategoryAndShopKeeper(@PathVariable("categoryId") String categoryId,@PathVariable("shopkeerperId") String shopkeerperId   )
+			throws InterruptedException, ExecutionException, ResourceNotFoundException {
+		ArrayList<Product> productList = productService.getProductByCategoryAndShopKeeper(categoryId,shopkeerperId);
+		if (productList != null) {
+			return new ResponseEntity<List<Product>>(productList, HttpStatus.OK);
+		} else {
+			throw new ResourceNotFoundException("Product Not Found");
+		}
+	}
+
+
+	
+	
 
 }

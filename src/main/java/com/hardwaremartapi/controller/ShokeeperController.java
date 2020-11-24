@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.web.bind.annotation.RequestBody;
 import com.hardwaremartapi.bean.Product;
 import com.hardwaremartapi.bean.Shopkeeper;
 import com.hardwaremartapi.bean.User;
@@ -55,7 +55,7 @@ public class ShokeeperController {
 	}
 	
 	@PostMapping("/updateshopkeeper")
-	public  ResponseEntity<Shopkeeper> updateShopkeeper(Shopkeeper shopkeeper) throws InterruptedException, ExecutionException
+	public  ResponseEntity<Shopkeeper> updateShopkeeper(@RequestBody Shopkeeper shopkeeper) throws InterruptedException, ExecutionException
 	{
 		Shopkeeper s = shopkeeperService.updateShopkeeper(shopkeeper);
 		return new ResponseEntity<Shopkeeper>(s,HttpStatus.OK);

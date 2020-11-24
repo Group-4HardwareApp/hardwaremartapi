@@ -160,5 +160,23 @@ public class ProductService {
 		}
 		return pl;
 	}
+	
+	
+	public ArrayList<Product> getProductByCategoryAndShopKeeper(String categoryId,String shopkeerperId) throws InterruptedException, ExecutionException {
+		Firestore fireStore = FirestoreClient.getFirestore();
+		ArrayList<Product> pl = new ArrayList<Product>();
+		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Product").get();
+		QuerySnapshot querySnapshot = apiFuture.get();
+		List<QueryDocumentSnapshot> documentSnapshotList = querySnapshot.getDocuments();
+		for (QueryDocumentSnapshot document : documentSnapshotList) {
+			Product product = document.toObject(Product.class);
+			if ( (categoryId.equals(document.getString("categoryId"))) && (shopkeerperId.equals(document.getString("shopKeeperId"))) ) {
+				pl.add(product);
+			}
+		}
+		return pl;
+	}
+	
+	
 
 }

@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import com.hardwaremartapi.bean.Category;
 import com.hardwaremartapi.exception.ResourceNotFoundException;
 import com.hardwaremartapi.service.CategoryService;
@@ -35,4 +37,20 @@ public class CategoryController {
      else
     	 return new ResponseEntity<Category>(c,HttpStatus.OK);
   }
+	
+@PostMapping("/save")
+  public ResponseEntity<Category> saveCategory(@RequestParam("file") MultipartFile file,
+		  @RequestParam("categoryName") String categoryName) throws Exception {
+	  if(file.isEmpty())
+		  throw new ResourceNotFoundException("File not found");
+	 
+	  Category category = new Category();
+	  category.setCategoryName(categoryName);
+	  
+	  Category c = categoryService.saveCategory(file, category);
+	  return new ResponseEntity<Category>(c,HttpStatus.OK);
+  }	
+	
+	
+	
 }
