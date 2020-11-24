@@ -1,8 +1,46 @@
 package com.hardwaremartapi.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import org.springframework.stereotype.Service;
+
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
+import com.google.firebase.cloud.FirestoreClient;
+import com.hardwaremartapi.bean.Cart;
 
 @Service
 public class CartService {
+  
+  public Cart saveProductInCart(Cart cart) {
+	  Firestore fireStore = FirestoreClient.getFirestore();
+	  String cartId = fireStore.collection("Cart").document().getId();
+	  cart.setCartId(cartId);
+	  fireStore.collection("Cart").document(cartId).set(cart);
+	  return cart;
+  }
+  
+  public Cart removeProductFromCart(String cartId) throws InterruptedException, ExecutionException {
+	  Firestore fireStore = FirestoreClient.getFirestore();
+	  Cart cart = fireStore.collection("Cart").document(cartId).get().get().toObject(Cart.class);
+      return cart;
+  }
 
+  public ArrayList<Cart> getCartProductList(String currentUserId) throws InterruptedException, ExecutionException{
+	  ArrayList<Cart> cartList = new ArrayList<>();
+	  Firestore fireStore = FirestoreClient.getFirestore();
+	  ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Cart").whereEqualTo("userId", currentUserId).get();
+	  QuerySnapshot snapshot = apiFuture.get();
+	  List<QueryDocumentSnapshot> documentSnapshot = snapshot.getDocuments();
+	  for(QueryDocumentSnapshot document :documentSnapshot) {
+		  Cart c = document.toObject(Cart.class);
+	      cartList.add(c);
+	  }
+	  return cartList;
+  }
 }
+
