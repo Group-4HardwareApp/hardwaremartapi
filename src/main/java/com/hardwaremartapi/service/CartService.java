@@ -27,6 +27,8 @@ public class CartService {
   public Cart removeProductFromCart(String cartId) throws InterruptedException, ExecutionException {
 	  Firestore fireStore = FirestoreClient.getFirestore();
 	  Cart cart = fireStore.collection("Cart").document(cartId).get().get().toObject(Cart.class);
+	  if(cart != null)
+		  fireStore.collection("Cart").document(cartId).delete();
       return cart;
   }
 
