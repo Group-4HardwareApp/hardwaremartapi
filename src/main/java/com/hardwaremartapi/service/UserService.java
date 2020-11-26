@@ -21,9 +21,7 @@ public class UserService {
 		Firestore firestoredatabase = FirestoreClient.getFirestore();
 		String imageUrl = fileUtility.uploadFile(file);
 		user.setImageUrl(imageUrl);
-		String userId = firestoredatabase.collection("User").document().getId().toString();
-		user.setUserId(userId);
-		firestoredatabase.collection("User").document(userId).set(user);
+		firestoredatabase.collection("User").document(user.getUserId()).set(user);
 		return user;
 	}
 
