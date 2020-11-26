@@ -1,6 +1,7 @@
 package com.hardwaremartapi.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hardwaremartapi.bean.Cart;
+import com.hardwaremartapi.bean.Order;
 import com.hardwaremartapi.exception.ResourceNotFoundException;
 import com.hardwaremartapi.service.CartService;
 
@@ -38,9 +40,9 @@ public class CartController {
       else
     	  return new ResponseEntity<>(c,HttpStatus.OK);
   }
-  @GetMapping("/currentUserId")
+  @GetMapping("/{currentUserId}")
   public ResponseEntity<ArrayList<Cart>> getCartProductList(@PathVariable("currentUserId") String currentUserId) throws InterruptedException, ExecutionException{
 	  ArrayList<Cart>list =  cartService.getCartProductList(currentUserId);
-      return new ResponseEntity<ArrayList<Cart>>(list,HttpStatus.OK);
+	  return new ResponseEntity<ArrayList<Cart>>(list,HttpStatus.OK);
   }
 }
