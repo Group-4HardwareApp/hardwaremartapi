@@ -53,5 +53,4 @@ public class ShopkeeperService {
 		fireStore.collection("Shopkeeper").document(shopKeeperId).set(shopkeeper);
 		return shopkeeper;
 	}
-
 }

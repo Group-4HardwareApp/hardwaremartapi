@@ -23,38 +23,40 @@ import org.springframework.web.multipart.MultipartFile;
 import com.hardwaremartapi.bean.Order;
 import com.hardwaremartapi.exception.ResourceNotFoundException;
 import com.hardwaremartapi.service.OrderService;
+import com.hardwaremartapi.bean.PurchaseOrder;
 
 @RestController
 @RequestMapping("/order")
 public class OrderController {
 
 	@Autowired
-	OrderService orderService ;
-	
-	@PostMapping("/placeOrder")  //save order
-	public ResponseEntity<?> placeOrder(@RequestBody Order order){
-        Order palcedOrder = orderService.placeOrders(order);
-        return new ResponseEntity<Order>(palcedOrder,HttpStatus.OK);
+	OrderService orderService;
+
+	@PostMapping("/placeOrder") // save order
+	public ResponseEntity<Order> placeOrder(@RequestBody Order order) {
+		Order palcedOrder = orderService.placeOrders(order);
+		return new ResponseEntity<Order>(palcedOrder, HttpStatus.OK);
 	}
-    
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Order> cancelOrder(@PathVariable("id")String id) throws Exception, Exception {
-		Order order = orderService.deleteOrder(id);  
-	     if(order != null)
-	    	 return new ResponseEntity<Order>(order,HttpStatus.OK);
-	     else
-	    	 throw new ResourceNotFoundException("Order not found");
+
+	@DeleteMapping("/delete/{orderId}")
+	public ResponseEntity<Order> cancelOrder(@PathVariable("orderId") String orderId) throws Exception, Exception {
+		Order order = orderService.cancelOrder(orderId);
+		if (order != null)
+			return new ResponseEntity<Order>(order, HttpStatus.OK);
+		else
+			throw new ResourceNotFoundException("Order not found");
 	}
-	
+
 	@GetMapping("/{id}")
-	public ResponseEntity<?> getOrderById(@PathVariable("id") String id) throws InterruptedException, ExecutionException, ResourceNotFoundException{
+	public ResponseEntity<Order> getOrderById(@PathVariable("id") String id)
+			throws InterruptedException, ExecutionException, ResourceNotFoundException {
 		Order order = orderService.getOrderById(id);
-	    if(order!=null)
-	    	return new ResponseEntity<Order>(order,HttpStatus.OK);
-	    else
-	    	throw new ResourceNotFoundException("Order not found");
-	  }	
-	
+		if (order != null)
+			return new ResponseEntity<Order>(order, HttpStatus.OK);
+		else
+			throw new ResourceNotFoundException("Order not found");
+	}
+
 	@GetMapping("/status/{userId}")
 	public ResponseEntity<List<Order>> getOrders(@PathVariable("userId") String userId) throws Exception {
 		ArrayList<Order> order = orderService.getOrders(userId);
@@ -63,13 +65,45 @@ public class OrderController {
 		else
 			throw new ResourceNotFoundException("Order not found");
 	}
+
+	@GetMapping("/active/{userId}")
+	public ResponseEntity<List<Order>> getActiveOrders(@PathVariable("userId") String userId) throws Exception {
+		ArrayList<Order> orderList = orderService.getActiveOrders(userId);
+		if (orderList != null)
+			return new ResponseEntity<List<Order>>(orderList, HttpStatus.OK);
+		else
+			throw new ResourceNotFoundException("Orders not found");
+	}
+
 	@GetMapping("/user/{userId}")
-	public ResponseEntity<List<Order>> getOrderOfCurrentUser(@PathVariable("userId") String userId) throws InterruptedException, ExecutionException, ResourceNotFoundException{
+	public ResponseEntity<List<Order>> getOrderOfCurrentUser(@PathVariable("userId") String userId)
+			throws InterruptedException, ExecutionException, ResourceNotFoundException {
 		ArrayList<Order> order = orderService.getOrderOfCurrentUser(userId);
 		if (order != null)
 			return new ResponseEntity<List<Order>>(order, HttpStatus.OK);
 		else
 			throw new ResourceNotFoundException("Order not found");
-		
+
+	}
+
+	@GetMapping("/orderHistory/{shopKeeperId}")
+	public ResponseEntity<ArrayList<PurchaseOrder>> getPurchaseOrder(@PathVariable("shopKeeperId") String shopKeeperId)
+			throws InterruptedException, ExecutionException, ResourceNotFoundException {
+		ArrayList<PurchaseOrder> orderList = orderService.getPurchaseOrder(shopKeeperId);
+		if (orderList != null)
+			return new ResponseEntity<ArrayList<PurchaseOrder>>(orderList, HttpStatus.OK);
+		else
+			throw new ResourceNotFoundException("Order Not Found");
+
+	}
+
+	@GetMapping("/onwayorders/{shopKeeperId}")
+	public ResponseEntity<ArrayList<PurchaseOrder>> getOnGoingOrder(@PathVariable("shopKeeperId") String shopKeeperId)
+			throws InterruptedException, ExecutionException, ResourceNotFoundException {
+		ArrayList<PurchaseOrder> orderList = orderService.getOnGoingOrder(shopKeeperId);
+		if (orderList != null)
+			return new ResponseEntity<ArrayList<PurchaseOrder>>(orderList, HttpStatus.OK);
+		else
+			throw new ResourceNotFoundException("Order Not Found");
 	}
 }

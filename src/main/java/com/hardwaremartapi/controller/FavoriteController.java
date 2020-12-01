@@ -26,7 +26,6 @@ public class FavoriteController {
 
 	@PostMapping("/")
 	public Favorite addFavorite(@RequestBody Favorite favorite) throws Exception {
-
 		return favoriteService.addFavorite(favorite);
 	}
 

@@ -1,6 +1,8 @@
 package com.hardwaremartapi.bean;
 
-public class OrderItems {
+import java.io.Serializable;
+
+public class OrderItems implements Serializable {
     private String productId;
     private int quantity;
     private String productName;

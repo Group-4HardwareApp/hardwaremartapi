@@ -1,9 +1,10 @@
 package com.hardwaremartapi.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Order {
+public class Order implements Serializable {
      private String orderId;
      private String userId;
      private String name;
