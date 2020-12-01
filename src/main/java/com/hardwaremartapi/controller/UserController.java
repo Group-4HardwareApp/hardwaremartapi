@@ -7,6 +7,8 @@ import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hardwaremartapi.bean.User;
+import com.hardwaremartapi.exception.ResourceNotFoundException;
 import com.hardwaremartapi.service.UserService;
 
 @RestController
@@ -90,5 +93,15 @@ public class UserController {
 	   	 User u =userService.updateUserWithoutImage(user);
 	   	 return new ResponseEntity<User>(u,HttpStatus.OK);
     }
+	
+	@GetMapping("/{currentUserId}")
+	public ResponseEntity<User> getUserDetails(@PathVariable("currentUserId") String currentUserId) throws Exception{
+		User user = userService.getUserDetails(currentUserId);
+		if(user != null)
+			return new ResponseEntity<User>(user,HttpStatus.OK);
+		else
+			
+			throw new ResourceNotFoundException("User not found");
+	}
 }
 
