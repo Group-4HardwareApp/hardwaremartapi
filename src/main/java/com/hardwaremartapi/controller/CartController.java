@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.hardwaremartapi.bean.BuyCart;
 import com.hardwaremartapi.bean.Cart;
 import com.hardwaremartapi.bean.Order;
 import com.hardwaremartapi.exception.ResourceNotFoundException;
@@ -44,5 +45,10 @@ public class CartController {
   public ResponseEntity<ArrayList<Cart>> getCartProductList(@PathVariable("currentUserId") String currentUserId) throws InterruptedException, ExecutionException{
 	  ArrayList<Cart>list =  cartService.getCartProductList(currentUserId);
 	  return new ResponseEntity<ArrayList<Cart>>(list,HttpStatus.OK);
+  }
+  @PostMapping("/buycart")
+  public ResponseEntity<?> getProductQtyAddedInCart(@RequestBody BuyCart buyCart) throws InterruptedException, ExecutionException{
+	  BuyCart buycart = cartService.getProductWithQtyInStock(buyCart);
+	  return new ResponseEntity<>(buycart,HttpStatus.OK);
   }
 }

@@ -11,7 +11,8 @@ public class Cart {
 	private String imageUrl;
 	private String description;
 	private String shopKeeperId;
-
+    private double qtyInStock;
+    
 	public Cart(String cartId, String userId, String categoryId, String productId, String name, double price,
 			String brand, String imageUrl, String description, String shopKeeperId) {
 		super();
@@ -28,6 +29,15 @@ public class Cart {
 	}
 
 	public Cart() {
+	}
+	
+
+	public double getQtyInStock() {
+		return qtyInStock;
+	}
+
+	public void setQtyInStock(double qtyInStock) {
+		this.qtyInStock = qtyInStock;
 	}
 
 	public String getCartId() {

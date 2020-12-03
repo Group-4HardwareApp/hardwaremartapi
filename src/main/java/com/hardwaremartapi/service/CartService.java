@@ -11,7 +11,9 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.firebase.cloud.FirestoreClient;
+import com.hardwaremartapi.bean.BuyCart;
 import com.hardwaremartapi.bean.Cart;
+import com.hardwaremartapi.bean.Product;
 
 @Service
 public class CartService {
@@ -43,6 +45,19 @@ public class CartService {
 	      cartList.add(c);
 	  }
 	  return cartList;
+  }
+  public BuyCart getProductWithQtyInStock(BuyCart buyCart) throws InterruptedException, ExecutionException{
+	  Firestore fireStore = FirestoreClient.getFirestore();
+	  ArrayList<Cart> cartList = buyCart.getCartList();
+	  ArrayList<Cart>al = new ArrayList<>();
+	  for(Cart c : cartList) {
+		  String productId = c.getProductId();
+		  Product p = fireStore.collection("Product").document(productId).get().get().toObject(Product.class);
+	      c.setQtyInStock(p.getQtyInStock());
+	      al.add(c);
+	  }
+	  buyCart.setCartList(al);
+	  return buyCart;
   }
 }
 
