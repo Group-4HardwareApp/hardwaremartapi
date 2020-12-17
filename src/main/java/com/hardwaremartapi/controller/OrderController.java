@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hardwaremartapi.bean.Order;
+import com.hardwaremartapi.bean.OrderCart;
 import com.hardwaremartapi.exception.ResourceNotFoundException;
 import com.hardwaremartapi.service.OrderService;
 import com.hardwaremartapi.bean.PurchaseOrder;
@@ -36,6 +37,12 @@ public class OrderController {
 	public ResponseEntity<Order> placeOrder(@RequestBody Order order) {
 		Order palcedOrder = orderService.placeOrders(order);
 		return new ResponseEntity<Order>(palcedOrder, HttpStatus.OK);
+	}
+
+	@PostMapping("/placeCartOrder") // save order
+	public ResponseEntity<OrderCart> placeCartOrder(@RequestBody OrderCart order) {
+		OrderCart palcedOrder = orderService.placeCartOrders(order);
+		return new ResponseEntity<OrderCart>(palcedOrder, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/delete/{orderId}")
@@ -75,6 +82,25 @@ public class OrderController {
 			throw new ResourceNotFoundException("Orders not found");
 	}
 
+	@GetMapping("/cancel/{userId}")
+	public ResponseEntity<List<Order>> getCancelledOrders(@PathVariable("userId") String userId) throws Exception {
+		ArrayList<Order> orderList = orderService.getCancelledOrders(userId);
+		if (orderList != null)
+			return new ResponseEntity<List<Order>>(orderList, HttpStatus.OK);
+		else
+			throw new ResourceNotFoundException("Orders not found");
+	}
+
+	@GetMapping("/deliver/{userId}")
+	public ResponseEntity<List<Order>> getDeliveredOrders(@PathVariable("userId") String userId) throws Exception {
+		ArrayList<Order> orderList = orderService.getDeliveredOrders(userId);
+		if (orderList != null)
+			return new ResponseEntity<List<Order>>(orderList, HttpStatus.OK);
+		else
+			throw new ResourceNotFoundException("Orders not found");
+	}
+
+	
 	@GetMapping("/user/{userId}")
 	public ResponseEntity<List<Order>> getOrderOfCurrentUser(@PathVariable("userId") String userId)
 			throws InterruptedException, ExecutionException, ResourceNotFoundException {
