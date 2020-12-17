@@ -23,6 +23,7 @@ import com.google.firebase.cloud.FirestoreClient;
 
 import com.hardwaremartapi.FileUtility;
 import com.hardwaremartapi.bean.Order;
+import com.hardwaremartapi.bean.OrderCart;
 import com.hardwaremartapi.bean.OrderItems;
 import com.hardwaremartapi.bean.PurchaseOrder;
 
@@ -33,6 +34,14 @@ public class OrderService {
 	OrderItems orderItem = new OrderItems();
 
 	public Order placeOrders(Order order) {
+		String orderId = fireStore.collection("Order").document().getId().toString();
+		order.setTimestamp(System.currentTimeMillis());
+		order.setOrderId(orderId);
+		fireStore.collection("Order").document(order.getOrderId()).set(order);
+		return order;
+	}
+	
+	public OrderCart placeCartOrders(OrderCart order) {
 		String orderId = fireStore.collection("Order").document().getId().toString();
 		order.setTimestamp(System.currentTimeMillis());
 		order.setOrderId(orderId);
@@ -82,8 +91,39 @@ public class OrderService {
 		}
 		return list;
 	}
+	public ArrayList<Order> getDeliveredOrders(String userId) throws Exception, Exception {
+		ArrayList<Order> list = new ArrayList<Order>();
+		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Order").whereEqualTo("userId", userId).get();
+		QuerySnapshot querySnapshot = apiFuture.get();
+		List<QueryDocumentSnapshot> documentSnapshotList = querySnapshot.getDocuments();
+		for (QueryDocumentSnapshot document : documentSnapshotList) {
+			Order order = document.toObject(Order.class);
+			String ship = order.getShippingStatus();
+			long time = order.getTimestamp();
+			if (ship.equals("Delivered")) {
+				list.add(order);
+			}
+		}
+		return list;
+	}
+	public ArrayList<Order> getCancelledOrders(String userId) throws Exception, Exception {
+		ArrayList<Order> list = new ArrayList<Order>();
+		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Order").whereEqualTo("userId", userId).get();
+		QuerySnapshot querySnapshot = apiFuture.get();
+		List<QueryDocumentSnapshot> documentSnapshotList = querySnapshot.getDocuments();
+		for (QueryDocumentSnapshot document : documentSnapshotList) {
+			Order order = document.toObject(Order.class);
+			String ship = order.getShippingStatus();
+			long time = order.getTimestamp();
+			if (ship.equals("Cancelled")) {
+				list.add(order);
+			}
+		}
+		return list;
+	}
 
-	public ArrayList<Order> getOrderOfCurrentUser(String currentUserId) throws InterruptedException, ExecutionException {
+	public ArrayList<Order> getOrderOfCurrentUser(String currentUserId)
+			throws InterruptedException, ExecutionException {
 		ArrayList<Order> list = new ArrayList<>();
 		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Order").whereEqualTo("userId", currentUserId).get();
 		QuerySnapshot snapshot = apiFuture.get();
@@ -99,19 +139,17 @@ public class OrderService {
 			throws InterruptedException, ExecutionException {
 		ArrayList<PurchaseOrder> purchaseOrderList = new ArrayList<>();
 
-		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Order").whereIn("shippingStatus", Arrays.asList("Delivered", "Cancelled")).get();
+		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Order")
+				.whereIn("shippingStatus", Arrays.asList("Delivered", "Cancelled")).get();
 
 		QuerySnapshot querySnapshot = apiFuture.get();
-
 		List<QueryDocumentSnapshot> documentSnapshotList = querySnapshot.getDocuments();
 
 		for (QueryDocumentSnapshot document : documentSnapshotList) {
 			double totalAmount = 0;
 			boolean status = false;
-
 			Order order = document.toObject(Order.class);
 			System.out.println(order.getOrderId());
-
 			ArrayList<OrderItems> orderItemList = order.getItemList();
 			ArrayList<OrderItems> itemList = new ArrayList<>(3);
 
@@ -122,7 +160,6 @@ public class OrderService {
 					itemList.add(orderItems);
 				}
 			}
-
 			if (status) {
 				PurchaseOrder pOrder = new PurchaseOrder();
 				pOrder.setOrderDate(order.getDate());
@@ -146,9 +183,7 @@ public class OrderService {
 				.orderBy("timestamp", Direction.DESCENDING).get();
 
 		QuerySnapshot querySnapshot = apiFuture.get();
-
 		List<QueryDocumentSnapshot> documentSnapshotList = querySnapshot.getDocuments();
-
 		for (QueryDocumentSnapshot document : documentSnapshotList) {
 			double totalAmount = 0;
 			boolean status = false;
@@ -166,7 +201,6 @@ public class OrderService {
 					itemList.add(orderItems);
 				}
 			}
-
 			if (status) {
 				PurchaseOrder pOrder = new PurchaseOrder();
 				pOrder.setOrderDate(order.getDate());
@@ -180,5 +214,4 @@ public class OrderService {
 		}
 		return purchaseOrderList;
 	}
-
 }
