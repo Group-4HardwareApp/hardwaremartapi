@@ -14,6 +14,7 @@ public class Order implements Serializable {
      private String contactNumber;
      private String deliveryOption;
      private String shippingStatus;
+     private String paymentOption;
      ArrayList<OrderItems> itemList;
      private long timestamp;
 	
@@ -22,7 +23,8 @@ public class Order implements Serializable {
      }
      
      public Order(String orderId, String userId, String name, String date, String deliveryAddress, int totalAmount,
-			String contactNumber, String deliveryOption, String shippingStatus, ArrayList<OrderItems> itemList, long timestamp) {
+			String contactNumber, String deliveryOption, String shippingStatus, ArrayList<OrderItems> itemList, 
+			String paymentOption,long timestamp) {
 		super();
 		this.orderId = orderId;
 		this.userId = userId;
@@ -34,9 +36,17 @@ public class Order implements Serializable {
 		this.deliveryOption = deliveryOption;
 		this.shippingStatus = shippingStatus;
 		this.itemList = itemList;
+		this.paymentOption = paymentOption;
 		this.timestamp = timestamp;
 	}
 
+	public String getPaymentOption() {
+		return paymentOption;
+	}
+
+	public void setPaymentOption(String paymentOption) {
+		this.paymentOption = paymentOption;
+	}
 
 	public long getTimestamp() {
 		return timestamp;
