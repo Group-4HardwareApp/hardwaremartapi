@@ -57,8 +57,8 @@ public class OrderItems implements Serializable {
 		return qty;
 	}
 
-	public void setqty(int quantity) {
-		this.qty = quantity;
+	public void setqty(int qty) {
+		this.qty = qty;
 	}
 
 	public String getName() {
