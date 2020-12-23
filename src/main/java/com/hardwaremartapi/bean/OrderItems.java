@@ -12,8 +12,7 @@ public class OrderItems implements Serializable {
     private String shopkeeperId;
     private String orderItemId;
     
-    public OrderItems() {
-    	
+    public OrderItems() {    	
     }
 
     public OrderItems(String productId, int qty, String productName, double amount,String imageUrl, double price,

@@ -31,12 +31,11 @@ public class OrderItemController {
 			   throw new ResourceNotFoundException("File not found");
 		
 		   OrderItems items = new OrderItems();
-		   items.setProductName(productName);
-           items.setQuantity(quantity);
+		   items.setName(productName);
+           items.setQty(quantity);
            items.setShopkeeperId(shopkeeperId);
            
            OrderItems item = orderItemService.getItems(file, items, orderId);
 	       return new ResponseEntity<OrderItems>(item, HttpStatus.OK);
-           
 	}
 }
