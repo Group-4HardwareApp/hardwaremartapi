@@ -12,15 +12,14 @@ public class OrderItems implements Serializable {
     private String shopkeeperId;
     private String orderItemId;
     
-    public OrderItems() {
-    	
+    public OrderItems() {    	
     }
 
-    public OrderItems(String productId, int quantity, String productName, double amount,String imageUrl, double price,
+    public OrderItems(String productId, int qty, String productName, double amount,String imageUrl, double price,
 			String shopkeeperId,String orderItemId) {
 		super();
 		this.productId = productId;
-		this.qty = quantity;
+		this.qty = qty;
 		this.name = productName;
 		this.amount = amount;
 		this.imageUrl = imageUrl;
