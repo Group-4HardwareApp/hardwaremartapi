@@ -57,7 +57,7 @@ public class OrderItems implements Serializable {
 		return qty;
 	}
 
-	public void setqty(int qty) {
+	public void setQty(int qty) {
 		this.qty = qty;
 	}
 
@@ -92,6 +92,4 @@ public class OrderItems implements Serializable {
 	public void setShopkeeperId(String shopkeeperId) {
 		this.shopkeeperId = shopkeeperId;
 	}
-    
-    
 }

@@ -156,7 +156,7 @@ public class OrderService {
 			for (OrderItems orderItems : orderItemList) {
 				if (orderItems.getShopkeeperId().equals(shopKeeperId)) {
 					status = true;
-					totalAmount = totalAmount + (orderItems.getPrice() * orderItems.getQuantity());
+					totalAmount = totalAmount + (orderItems.getPrice() * orderItems.getQty());
 					itemList.add(orderItems);
 				}
 			}
@@ -197,7 +197,7 @@ public class OrderService {
 			for (OrderItems orderItems : orderItemList) {
 				if (orderItems.getShopkeeperId().equals(shopKeeperId)) {
 					status = true;
-					totalAmount = totalAmount + (orderItems.getPrice() * orderItems.getQuantity());
+					totalAmount = totalAmount + (orderItems.getPrice() * orderItems.getQty());
 					itemList.add(orderItems);
 				}
 			}
