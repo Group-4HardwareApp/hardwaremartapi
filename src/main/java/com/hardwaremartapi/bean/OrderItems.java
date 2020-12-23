@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class OrderItems implements Serializable {
     private String productId;
-    private int quantity;
+    private int qty;
     private String name;
     private double amount;
     private String imageUrl;
@@ -16,11 +16,11 @@ public class OrderItems implements Serializable {
     	
     }
 
-    public OrderItems(String productId, int quantity, String productName, double amount,String imageUrl, double price,
+    public OrderItems(String productId, int qty, String productName, double amount,String imageUrl, double price,
 			String shopkeeperId,String orderItemId) {
 		super();
 		this.productId = productId;
-		this.quantity = quantity;
+		this.qty = qty;
 		this.name = productName;
 		this.amount = amount;
 		this.imageUrl = imageUrl;
@@ -54,12 +54,12 @@ public class OrderItems implements Serializable {
 		this.productId = productId;
 	}
 
-	public int getQuantity() {
-		return quantity;
+	public int getQty() {
+		return qty;
 	}
 
-	public void setQuantity(int quantity) {
-		this.quantity = quantity;
+	public void setQty(int qty) {
+		this.qty = qty;
 	}
 
 	public String getName() {
@@ -93,6 +93,4 @@ public class OrderItems implements Serializable {
 	public void setShopkeeperId(String shopkeeperId) {
 		this.shopkeeperId = shopkeeperId;
 	}
-    
-    
 }
