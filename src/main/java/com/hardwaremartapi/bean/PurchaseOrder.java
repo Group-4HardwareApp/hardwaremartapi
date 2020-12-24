@@ -3,30 +3,26 @@ package com.hardwaremartapi.bean;
 import java.util.ArrayList;
 
 public class PurchaseOrder {
+
 	private String orderId;
-	private String orderDate;
-	private String orderStatus;
+	private String shippingStatus;
+	private String date;
 	private double totalAmount;
 	private ArrayList<OrderItems> itemList;
+
 	
 	public PurchaseOrder() {
+		
 	}
 	
-	public PurchaseOrder(String orderId, String orderStatus, String orderDate, double totalAmount, ArrayList<OrderItems> itemList) {
+	public PurchaseOrder(String orderId, String shippingStatus, String date, double totalAmount,
+			ArrayList<OrderItems> itemList) {
 		super();
 		this.orderId = orderId;
-		this.orderStatus = orderStatus;
-		this.orderDate = orderDate;
+		this.shippingStatus = shippingStatus;
+		this.date = date;
 		this.totalAmount = totalAmount;
 		this.itemList = itemList;
-	}
-
-	public String getOrderStatus() {
-		return orderStatus;
-	}
-
-	public void setOrderStatus(String orderStatus) {
-		this.orderStatus = orderStatus;
 	}
 
 	public String getOrderId() {
@@ -37,12 +33,20 @@ public class PurchaseOrder {
 		this.orderId = orderId;
 	}
 
-	public String getOrderDate() {
-		return orderDate;
+	public String getShippingStatus() {
+		return shippingStatus;
 	}
 
-	public void setOrderDate(String orderDate) {
-		this.orderDate = orderDate;
+	public void setShippingStatus(String shippingStatus) {
+		this.shippingStatus = shippingStatus;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
 	}
 
 	public double getTotalAmount() {

@@ -135,12 +135,12 @@ public class OrderService {
 		return list;
 	}
 
-	public ArrayList<PurchaseOrder> getPurchaseOrder(String shopKeeperId)
+	public ArrayList<PurchaseOrder> getPurchaseOrder(String shopkeeperId)
 			throws InterruptedException, ExecutionException {
 		ArrayList<PurchaseOrder> purchaseOrderList = new ArrayList<>();
 
 		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Order")
-				.whereIn("shippingStatus", Arrays.asList("Delivered", "Cancelled")).get();
+				.whereIn("shippingStatus", Arrays.asList("Delivered", "Cancelled")).orderBy("timestamp",Direction.DESCENDING).get();
 
 		QuerySnapshot querySnapshot = apiFuture.get();
 		List<QueryDocumentSnapshot> documentSnapshotList = querySnapshot.getDocuments();
@@ -154,7 +154,7 @@ public class OrderService {
 			ArrayList<OrderItems> itemList = new ArrayList<>(3);
 
 			for (OrderItems orderItems : orderItemList) {
-				if (orderItems.getShopkeeperId().equals(shopKeeperId)) {
+				if (orderItems.getShopkeeperId().equals(shopkeeperId)) {
 					status = true;
 					totalAmount = totalAmount + (orderItems.getPrice() * orderItems.getQty());
 					itemList.add(orderItems);
@@ -162,9 +162,9 @@ public class OrderService {
 			}
 			if (status) {
 				PurchaseOrder pOrder = new PurchaseOrder();
-				pOrder.setOrderDate(order.getDate());
+				pOrder.setDate(order.getDate());
 				pOrder.setOrderId(order.getOrderId());
-				pOrder.setOrderStatus(order.getShippingStatus());
+				pOrder.setShippingStatus(order.getShippingStatus());
 				pOrder.setTotalAmount(totalAmount);
 				pOrder.setItemList(itemList);
 				purchaseOrderList.add(pOrder);
@@ -174,7 +174,7 @@ public class OrderService {
 		return purchaseOrderList;
 	}
 
-	public ArrayList<PurchaseOrder> getOnGoingOrder(String shopKeeperId)
+	public ArrayList<PurchaseOrder> getOnGoingOrder(String shopkeeperId)
 			throws InterruptedException, ExecutionException {
 		ArrayList<PurchaseOrder> purchaseOrderList = new ArrayList<>();
 
@@ -195,7 +195,7 @@ public class OrderService {
 			ArrayList<OrderItems> itemList = new ArrayList<>(3);
 
 			for (OrderItems orderItems : orderItemList) {
-				if (orderItems.getShopkeeperId().equals(shopKeeperId)) {
+				if (orderItems.getShopkeeperId().equals(shopkeeperId)) {
 					status = true;
 					totalAmount = totalAmount + (orderItems.getPrice() * orderItems.getQty());
 					itemList.add(orderItems);
@@ -203,9 +203,9 @@ public class OrderService {
 			}
 			if (status) {
 				PurchaseOrder pOrder = new PurchaseOrder();
-				pOrder.setOrderDate(order.getDate());
+				pOrder.setDate(order.getDate());
 				pOrder.setOrderId(order.getOrderId());
-				pOrder.setOrderStatus(order.getShippingStatus());
+				pOrder.setShippingStatus(order.getShippingStatus());
 				pOrder.setTotalAmount(totalAmount);
 				pOrder.setItemList(itemList);
 				purchaseOrderList.add(pOrder);
