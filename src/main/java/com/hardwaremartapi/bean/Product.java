@@ -1,5 +1,8 @@
 package com.hardwaremartapi.bean;
 
+import java.util.ArrayList;
+import java.util.Map;
+
 public class Product {
 	private String productId;
 	private String categoryId;
