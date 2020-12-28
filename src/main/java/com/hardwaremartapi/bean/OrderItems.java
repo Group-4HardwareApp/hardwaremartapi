@@ -6,7 +6,7 @@ public class OrderItems implements Serializable {
     private String productId;
     private int qty;
     private String name;
-    private double amount;
+    private double total;
     private String imageUrl;
     private double price;
     private String shopkeeperId;
@@ -21,7 +21,7 @@ public class OrderItems implements Serializable {
 		this.productId = productId;
 		this.qty = qty;
 		this.name = productName;
-		this.amount = amount;
+		this.total = amount;
 		this.imageUrl = imageUrl;
 		this.price = price;
 		this.shopkeeperId = shopkeeperId;
@@ -69,12 +69,12 @@ public class OrderItems implements Serializable {
 		this.name = productName;
 	}
 
-	public double getAmount() {
-		return amount;
+	public double getTotal() {
+		return total;
 	}
 
-	public void setAmount(double amount) {
-		this.amount = amount;
+	public void setTotal(double total) {
+		this.total = total;
 	}
 
 	public double getPrice() {
