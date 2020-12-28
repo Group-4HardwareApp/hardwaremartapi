@@ -62,7 +62,7 @@ public class CommentService {
 		comment.setUserImg(com.getUserImg());
 		comment.setUserName(com.getUserName());
 		comment.setUserId(com.getUserId());
-		comment.setCommentId(com.getCommentId());
+		comment.setCommentId(commentId);
 		firestore.collection("Product").document(comment.getProductId()).collection("Comment")
 		         .document(commentId).set(comment);
 		return comment;
