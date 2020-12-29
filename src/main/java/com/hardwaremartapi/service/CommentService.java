@@ -21,9 +21,10 @@ import com.hardwaremartapi.bean.Order;
 public class CommentService {
 	
 	CollectionReference ref ;
-	Firestore firestore = FirestoreClient.getFirestore();
+	
 	
 	public Comment deleteComment(String productId, String commentId) throws Exception, Exception {
+		Firestore firestore = FirestoreClient.getFirestore();
 		Comment comment = firestore.collection("Product").document(productId).collection("Comment")
 				.document(commentId).get().get().toObject(Comment.class);
 		if (comment != null)
@@ -32,6 +33,7 @@ public class CommentService {
 	}
 
 	public Comment commentProduct(Comment comment) {
+		Firestore firestore = FirestoreClient.getFirestore();
 		String commentId = firestore.collection("Product").document(comment.getProductId()).collection("Comment")
 				.document().getId().toString();
 		comment.setTimestamp(System.currentTimeMillis());
@@ -41,6 +43,7 @@ public class CommentService {
 	}
 
 	public ArrayList<Comment> getCommentOfProduct(String productId) throws Exception, Exception {
+		Firestore firestore = FirestoreClient.getFirestore();
 		ArrayList<Comment> commentList = new ArrayList<>();
 		ApiFuture<QuerySnapshot> apiFuture = firestore.collection("Product").document(productId).collection("Comment")
 				.orderBy("timestamp", Direction.DESCENDING).limit(10).get();
@@ -56,6 +59,7 @@ public class CommentService {
 	}
 	
 	public Comment updateComment(Comment comment, String commentId) throws InterruptedException, ExecutionException {
+		Firestore firestore = FirestoreClient.getFirestore();
 		Comment com = firestore.collection("Product").document(comment.getProductId()).collection("Comment").
 				document(commentId).get().get().toObject(Comment.class);
 		comment.setTimestamp(System.currentTimeMillis());
