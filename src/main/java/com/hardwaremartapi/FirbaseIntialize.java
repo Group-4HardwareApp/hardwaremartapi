@@ -19,14 +19,11 @@ public class FirbaseIntialize {
     public void initialize() {
         try {
         	
-            // InputStream serviceAccount = this.getClass().getClassLoader().getResourceAsStream("serviceAccountKey.json");
+            InputStream serviceAccount = this.getClass().getClassLoader().getResourceAsStream("serviceAccountKey.json");
         	
-            File file = ResourceUtils.getFile("classpath:serviceAccountKey.json");
-            InputStream inputStream = new FileInputStream(file);
-            
             @SuppressWarnings("deprecation")
 			FirebaseOptions options = new FirebaseOptions.Builder()
-                    .setCredentials(GoogleCredentials.fromStream(inputStream))
+                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
                     .setDatabaseUrl("https://hardwaremartapi.firebaseio.com")
                     .setStorageBucket("hardwaremartapi.appspot.com")
                     .build();
