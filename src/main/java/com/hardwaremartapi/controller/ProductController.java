@@ -32,6 +32,33 @@ public class ProductController {
 	@Autowired
 	ProductService productService;
 
+	   @PostMapping("/save")
+	   public ResponseEntity<Product> savedProduct(@RequestParam("file")MultipartFile file,
+	   		@RequestParam("file2")MultipartFile file2,
+	   		@RequestParam("file3")MultipartFile file3,
+	   		@RequestParam("categoryId") String categoryId, @RequestParam("shopKeeperId") String shopKeeperId,
+	   		@RequestParam("name") String name, @RequestParam("price") double price,
+	   		@RequestParam("discount") double discount, @RequestParam("brand") String brand,
+	   		@RequestParam("qtyInStock") int qtyInStock, @RequestParam("description") String description)		
+	   		throws ResourceNotFoundException, IOException {
+
+	   	if (file.isEmpty()) {
+	   		throw new ResourceNotFoundException("File not found");
+	   	}
+
+	   	Product product = new Product();
+	   	product.setCategoryId(categoryId);
+	   	product.setShopKeeperId(shopKeeperId);
+	   	product.setName(name);
+	   	product.setPrice(price);
+	   	product.setDiscount(discount);
+	   	product.setBrand(brand);
+	   	product.setDescription(description);
+	   	product.setQtyInStock(qtyInStock);
+	   	Product p = productService.savedproduct(file,file2,file3, product);
+	   	return new ResponseEntity<Product>(p, HttpStatus.OK);
+	   }
+	
 	@PostMapping("/")
 	public ResponseEntity<Product> saveProduct(@RequestParam("file") MultipartFile file,
 			@RequestParam("categoryId") String categoryId, @RequestParam("shopKeeperId") String shopKeeperId,
@@ -128,11 +155,13 @@ public class ProductController {
 
 	@PostMapping("/updateproductimg")
 	public ResponseEntity<Product> updateProductImage(@RequestParam("file") MultipartFile file,
+			@RequestParam("file2") MultipartFile file2,
+			@RequestParam("file3") MultipartFile file3,
 			@RequestParam("productId") String productId) throws InterruptedException, ExecutionException, IOException {
-		Product p = productService.updateProductImage(file, productId);
+		Product p = productService.updateProductImage(file,file2,file3, productId);
 		return new ResponseEntity<Product>(p, HttpStatus.OK);
 	}
-
+	
 	@GetMapping("/shopkeeperproducts/{name}/{shopkeeperId}")
 	public ResponseEntity<List<Product>> viewProductOfShopkeeper(@PathVariable("name") String name,
 			@PathVariable("shopkeeperId") String id)

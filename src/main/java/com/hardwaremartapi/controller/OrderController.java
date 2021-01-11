@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,7 +47,16 @@ public class OrderController {
 	}
 
 	@DeleteMapping("/delete/{orderId}")
-	public ResponseEntity<Order> cancelOrder(@PathVariable("orderId") String orderId) throws Exception, Exception {
+	public ResponseEntity<Order> deleteOrder(@PathVariable("orderId") String orderId) throws Exception, Exception {
+		Order order = orderService.deleteOrder(orderId);
+		if (order != null)
+			return new ResponseEntity<Order>(order, HttpStatus.OK);
+		else
+			throw new ResourceNotFoundException("Order not found");
+	}
+
+	@PostMapping("/cancel/{orderId}")
+	public ResponseEntity<Order> cancelOrder(@PathVariable("orderId") String orderId) throws ResourceNotFoundException, Exception, ExecutionException {
 		Order order = orderService.cancelOrder(orderId);
 		if (order != null)
 			return new ResponseEntity<Order>(order, HttpStatus.OK);
@@ -100,7 +110,6 @@ public class OrderController {
 			throw new ResourceNotFoundException("Orders not found");
 	}
 
-	
 	@GetMapping("/user/{userId}")
 	public ResponseEntity<List<Order>> getOrderOfCurrentUser(@PathVariable("userId") String userId)
 			throws InterruptedException, ExecutionException, ResourceNotFoundException {
@@ -120,7 +129,6 @@ public class OrderController {
 			return new ResponseEntity<ArrayList<PurchaseOrder>>(orderList, HttpStatus.OK);
 		else
 			throw new ResourceNotFoundException("Order Not Found");
-
 	}
 
 	@GetMapping("/onwayorders/{shopKeeperId}")

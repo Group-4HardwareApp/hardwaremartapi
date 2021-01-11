@@ -6,7 +6,6 @@ public class Comment {
 	private String date;
 	private long timestamp;
 	private String userId;
-	private String orderId;
 	private String comment;
 	private String productId;
 	private String rating;
@@ -17,13 +16,12 @@ public class Comment {
 
 	}
 
-	public Comment(String date, long timestamp, String userId, String orderId, String comment, String productId,
+	public Comment(String date, long timestamp, String userId, String comment, String productId,
 			String rating, String userName, String userImg) {
 		super();
 		this.date = date;
 		this.timestamp = timestamp;
 		this.userId = userId;
-		this.orderId = orderId;
 		this.comment = comment;
 		this.productId = productId;
 		this.rating = rating;
@@ -77,14 +75,6 @@ public class Comment {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
-	}
-
-	public String getOrderId() {
-		return orderId;
-	}
-
-	public void setOrderId(String orderId) {
-		this.orderId = orderId;
 	}
 
 	public String getComment() {

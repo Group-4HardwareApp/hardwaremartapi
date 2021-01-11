@@ -10,11 +10,10 @@ public class PurchaseOrder {
 	private double totalAmount;
 	private ArrayList<OrderItems> itemList;
 
-	
 	public PurchaseOrder() {
-		
+
 	}
-	
+
 	public PurchaseOrder(String orderId, String shippingStatus, String date, double totalAmount,
 			ArrayList<OrderItems> itemList) {
 		super();

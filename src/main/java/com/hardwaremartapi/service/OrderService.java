@@ -40,7 +40,7 @@ public class OrderService {
 		fireStore.collection("Order").document(order.getOrderId()).set(order);
 		return order;
 	}
-	
+
 	public OrderCart placeCartOrders(OrderCart order) {
 		Firestore fireStore = FirestoreClient.getFirestore();
 		String orderId = fireStore.collection("Order").document().getId().toString();
@@ -56,12 +56,26 @@ public class OrderService {
 		return order;
 	}
 
-	public Order cancelOrder(String orderId) throws InterruptedException, ExecutionException {
+
+	public Order deleteOrder(String orderId) throws InterruptedException, ExecutionException {
 		Firestore fireStore = FirestoreClient.getFirestore();
 		Order order = fireStore.collection("Order").document(orderId).get().get().toObject(Order.class);
 		if (order != null) {
 			fireStore.collection("Order").document(orderId).delete();
 		}
+		return order;
+	}
+	
+	public Order cancelOrder(String orderId) throws InterruptedException, ExecutionException {
+        Firestore fireStore = FirestoreClient.getFirestore();        
+        Order order = fireStore.collection("Order").document(orderId).get().get().toObject(Order.class);
+        if(order != null) {
+        	String ship = order.getShippingStatus();
+        	if(ship.equals("Onway")){
+        		order.setShippingStatus("Cancelled");
+        	  fireStore.collection("Order").document(orderId).set(order);
+        	}
+        }
 		return order;
 	}
 
@@ -96,6 +110,7 @@ public class OrderService {
 		}
 		return list;
 	}
+
 	public ArrayList<Order> getDeliveredOrders(String userId) throws Exception, Exception {
 		Firestore fireStore = FirestoreClient.getFirestore();
 		ArrayList<Order> list = new ArrayList<Order>();
@@ -112,6 +127,7 @@ public class OrderService {
 		}
 		return list;
 	}
+
 	public ArrayList<Order> getCancelledOrders(String userId) throws Exception, Exception {
 		Firestore fireStore = FirestoreClient.getFirestore();
 		ArrayList<Order> list = new ArrayList<Order>();
@@ -149,7 +165,8 @@ public class OrderService {
 		ArrayList<PurchaseOrder> purchaseOrderList = new ArrayList<>();
 
 		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Order")
-				.whereIn("shippingStatus", Arrays.asList("Delivered", "Cancelled")).orderBy("timestamp",Direction.DESCENDING).get();
+				.whereIn("shippingStatus", Arrays.asList("Delivered", "Cancelled"))
+				.orderBy("timestamp", Direction.DESCENDING).get();
 
 		QuerySnapshot querySnapshot = apiFuture.get();
 		List<QueryDocumentSnapshot> documentSnapshotList = querySnapshot.getDocuments();
