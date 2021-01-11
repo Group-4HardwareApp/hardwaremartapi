@@ -23,22 +23,19 @@ import com.hardwaremartapi.service.UserService;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	@PostMapping("/save")
-	public ResponseEntity<?> saveUser(@RequestParam("file") MultipartFile file,
-			@RequestParam("name") String name,
-			@RequestParam("address") String address, 
-			@RequestParam("mobile") String mobile,
-			@RequestParam("email") String email,
-			@RequestParam("token") String token,
+	public ResponseEntity<?> saveUser(@RequestParam("file") MultipartFile file, @RequestParam("name") String name,
+			@RequestParam("address") String address, @RequestParam("mobile") String mobile,
+			@RequestParam("email") String email, @RequestParam("token") String token,
 			@RequestParam("userId") String userId) throws Exception {
 
 		if (file.isEmpty())
 			throw new Exception();
-		
+
 		User user = new User();
 		user.setName(name);
 		user.setAddress(address);
@@ -49,59 +46,55 @@ public class UserController {
 		User u = userService.saveUser(file, user);
 		return new ResponseEntity<User>(u, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/updateuser")
-	public  ResponseEntity<User> updateShopkeeper(@RequestBody User user) throws InterruptedException, ExecutionException
-	{
+	public ResponseEntity<User> updateShopkeeper(@RequestBody User user)
+			throws InterruptedException, ExecutionException {
 		User u = userService.updateUser(user);
-		return new ResponseEntity<User>(u,HttpStatus.OK);
+		return new ResponseEntity<User>(u, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/updateuserimg")
 	public ResponseEntity<User> updateUserImage(@RequestParam("file") MultipartFile file,
-			@RequestParam("userId") String userId) throws InterruptedException, ExecutionException, IOException
-    {
-		User u = userService.updateUserImage(file,userId); 
-		return new ResponseEntity<User>(u,HttpStatus.OK);
-    }
-	
+			@RequestParam("userId") String userId) throws InterruptedException, ExecutionException, IOException {
+		User u = userService.updateUserImage(file, userId);
+		return new ResponseEntity<User>(u, HttpStatus.OK);
+	}
+
 	@PostMapping("/update")
-    public ResponseEntity<?> updateUser(@RequestParam("file") MultipartFile file,
-    		@RequestParam("userId") String userId,
-    		@RequestParam("name") String name,
-            @RequestParam("email") String email,
-    		@RequestParam("mobile") String mobile,
-    		@RequestParam("address") String address,
-    		@RequestParam("token") String token) throws IOException, InterruptedException, Exception{
-       	 
-    		if(file.isEmpty())throw new Exception();
-    		User user = new User();
-    		user.setName(name);
-    		user.setEmail(email);
-    		user.setMobile(mobile);
-    		user.setAddress(address);
-    		user.setUserId(userId);
-    		user.setToken(token);
-    		
-    		User u =userService.updateUser(file, user);
-	   	 return new ResponseEntity<User>(u,HttpStatus.OK);
-    }
-	
+	public ResponseEntity<?> updateUser(@RequestParam("file") MultipartFile file, @RequestParam("userId") String userId,
+			@RequestParam("name") String name, @RequestParam("email") String email,
+			@RequestParam("mobile") String mobile, @RequestParam("address") String address,
+			@RequestParam("token") String token) throws IOException, InterruptedException, Exception {
+
+		if (file.isEmpty())
+			throw new Exception();
+		User user = new User();
+		user.setName(name);
+		user.setEmail(email);
+		user.setMobile(mobile);
+		user.setAddress(address);
+		user.setUserId(userId);
+		user.setToken(token);
+
+		User u = userService.updateUser(file, user);
+		return new ResponseEntity<User>(u, HttpStatus.OK);
+	}
+
 	@PostMapping("/update/withoutImage")
-    public ResponseEntity<?> updateUserWithoutImage(@RequestBody User user) throws Exception{
-	   
-	   	 User u =userService.updateUserWithoutImage(user);
-	   	 return new ResponseEntity<User>(u,HttpStatus.OK);
-    }
-	
+	public ResponseEntity<?> updateUserWithoutImage(@RequestBody User user) throws Exception {
+
+		User u = userService.updateUserWithoutImage(user);
+		return new ResponseEntity<User>(u, HttpStatus.OK);
+	}
+
 	@GetMapping("/{currentUserId}")
-	public ResponseEntity<User> getUserDetails(@PathVariable("currentUserId") String currentUserId) throws Exception{
+	public ResponseEntity<User> getUserDetails(@PathVariable("currentUserId") String currentUserId) throws Exception {
 		User user = userService.getUserDetails(currentUserId);
-		if(user != null)
-			return new ResponseEntity<User>(user,HttpStatus.OK);
+		if (user != null)
+			return new ResponseEntity<User>(user, HttpStatus.OK);
 		else
-			
+
 			throw new ResourceNotFoundException("User not found");
 	}
 }
-

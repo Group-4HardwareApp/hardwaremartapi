@@ -17,26 +17,24 @@ import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.StorageOptions;
 
 public class FileUtility {
-    public String uploadFile(MultipartFile file) throws IOException {
-    	InputStream serviceAccount = this.getClass().getClassLoader().getResourceAsStream("./serviceAccountKey.json");
-    	Storage storage = StorageOptions.newBuilder().setProjectId("hardwaremartapi")
-    			.setCredentials(GoogleCredentials.fromStream(serviceAccount)).build().getService();
-    	
-    	HashMap<String, String> hm = new HashMap();
-    	hm.put("firebaseStorageDownloadTokens", "3434434343434dfdf");
-    	BlobId blobId = BlobId.of("hardwaremartapi.appspot.com", file.getOriginalFilename());
-    	
-    	BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
-    			.setContentType("image/jpeg")
-    			.setMetadata(hm)
-    			.build();
-    	
-    	File convertedFile = new File(file.getOriginalFilename());
-    	FileOutputStream fos = new FileOutputStream(convertedFile);
-    	fos.write(file.getBytes());
-    	fos.close();
-    	Blob blob = storage.create(blobInfo,Files.readAllBytes(convertedFile.toPath()));
-        String imageUrl = "https://firebasestorage.googleapis.com/v0/b/hardwaremartapi.appspot.com/o/"+convertedFile+"?alt=media&token=3434434343434dfdf";
-        return imageUrl;
-    } 
+	public String uploadFile(MultipartFile file) throws IOException {
+		InputStream serviceAccount = this.getClass().getClassLoader().getResourceAsStream("serviceAccountKey.json");
+		Storage storage = StorageOptions.newBuilder().setProjectId("hardwaremartapi")
+				.setCredentials(GoogleCredentials.fromStream(serviceAccount)).build().getService();
+
+		HashMap<String, String> hm = new HashMap();
+		hm.put("firebaseStorageDownloadTokens", "3434434343434dfdf");
+		BlobId blobId = BlobId.of("hardwaremartapi.appspot.com", file.getOriginalFilename());
+
+		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).setContentType("image/jpeg").setMetadata(hm).build();
+
+		File convertedFile = new File(file.getOriginalFilename());
+		FileOutputStream fos = new FileOutputStream(convertedFile);
+		fos.write(file.getBytes());
+		fos.close();
+		Blob blob = storage.create(blobInfo, Files.readAllBytes(convertedFile.toPath()));
+		String imageUrl = "https://firebasestorage.googleapis.com/v0/b/hardwaremartapi.appspot.com/o/" + convertedFile
+				+ "?alt=media&token=3434434343434dfdf";
+		return imageUrl;
+	}
 }

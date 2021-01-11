@@ -27,6 +27,23 @@ import com.hardwaremartapi.bean.Product;
 @Service
 public class ProductService {
 
+	public Product savedproduct(MultipartFile file, MultipartFile file2, MultipartFile file3, Product product)
+			throws IOException {
+		FileUtility fileUtility = new FileUtility();
+		String imageUrl = fileUtility.uploadFile(file);
+		product.setImageUrl(imageUrl);
+		String secondImageUrl = fileUtility.uploadFile(file2);
+		product.setSecondImageUrl(secondImageUrl);
+		String thirdImageurl = fileUtility.uploadFile(file3);
+		product.setThirdImageurl(thirdImageurl);
+		Firestore fireStore = FirestoreClient.getFirestore();
+		product.setTimestamp(System.currentTimeMillis());
+		String productId = fireStore.collection("Product").document().getId().toString();
+		product.setProductId(productId);
+		fireStore.collection("Product").document(productId).set(product);
+		return product;
+	}
+
 	public Product saveProduct(MultipartFile file, Product product) throws IOException {
 		FileUtility fileUtility = new FileUtility();
 		String imageUrl = fileUtility.uploadFile(file);
@@ -126,17 +143,23 @@ public class ProductService {
 		product.setTimestamp(System.currentTimeMillis());
 		product.setShopKeeperId(p0.getShopKeeperId());
 		product.setImageUrl(p0.getImageUrl());
+		product.setSecondImageUrl(p0.getSecondImageUrl());
+		product.setThirdImageurl(p0.getThirdImageurl());
 		fireStore.collection("Product").document(product.getProductId()).set(product);
 		return product;
 	}
 
-	public Product updateProductImage(MultipartFile file, String productId)
+	public Product updateProductImage(MultipartFile file, MultipartFile file2, MultipartFile file3, String productId)
 			throws InterruptedException, ExecutionException, IOException {
 		Firestore fireStore = FirestoreClient.getFirestore();
 		Product product = fireStore.collection("Product").document(productId).get().get().toObject(Product.class);
 		FileUtility fileUtility = new FileUtility();
 		String imageUrl = fileUtility.uploadFile(file);
 		product.setImageUrl(imageUrl);
+		String secondImageUrl = fileUtility.uploadFile(file2);
+		product.setSecondImageUrl(secondImageUrl);
+		String thirdImageurl = fileUtility.uploadFile(file3);
+		product.setThirdImageurl(thirdImageurl);
 		fireStore.collection("Product").document(productId).set(product);
 		return product;
 	}

@@ -57,6 +57,5 @@ public class CommentController {
 	public ResponseEntity<Comment> updateComment(@RequestBody Comment comment, @PathVariable("commentId")String commentId) throws Exception, ExecutionException{
 		Comment com = ratingService.updateComment(comment,commentId);
 		return new ResponseEntity<Comment>(com, HttpStatus.OK);
-	}
-	
+	}	
 }

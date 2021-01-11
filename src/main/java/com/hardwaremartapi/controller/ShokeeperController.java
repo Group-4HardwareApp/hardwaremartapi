@@ -30,11 +30,13 @@ public class ShokeeperController {
 	@PostMapping("/")
 	public ResponseEntity<Shopkeeper> saveShopkeeper(@RequestParam("file") MultipartFile file,
 			@RequestParam("name") String name, @RequestParam("shopName") String shopName,
-			@RequestParam("contactNumber") String contactNumber, @RequestParam("address") String address,
-			@RequestParam("email") String email, @RequestParam("token") String token) throws Exception {
+			@RequestParam("shopkeeperId") String shopkeeperId, @RequestParam("contactNumber") String contactNumber,
+			@RequestParam("address") String address, @RequestParam("email") String email,
+			@RequestParam("token") String token) throws Exception {
 		Shopkeeper shopkeeper = new Shopkeeper();
 		shopkeeper.setName(name);
 		shopkeeper.setShopName(shopName);
+		shopkeeper.setShopkeeperId(shopkeeperId);
 		shopkeeper.setAddress(address);
 		shopkeeper.setEmail(email);
 		shopkeeper.setContactNumber(contactNumber);
@@ -53,40 +55,19 @@ public class ShokeeperController {
 			throw new ResourceNotFoundException("Shopkeeper Not Found");
 		}
 	}
-	
+
 	@PostMapping("/updateshopkeeper")
-	public  ResponseEntity<Shopkeeper> updateShopkeeper(@RequestBody Shopkeeper shopkeeper) throws InterruptedException, ExecutionException
-	{
+	public ResponseEntity<Shopkeeper> updateShopkeeper(@RequestBody Shopkeeper shopkeeper)
+			throws InterruptedException, ExecutionException {
 		Shopkeeper s = shopkeeperService.updateShopkeeper(shopkeeper);
-		return new ResponseEntity<Shopkeeper>(s,HttpStatus.OK);
+		return new ResponseEntity<Shopkeeper>(s, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/updateshopkeeperimg")
 	public ResponseEntity<Shopkeeper> updateShopkeeperImage(@RequestParam("file") MultipartFile file,
-			@RequestParam("shopKeeperId") String shopKeeperId) throws InterruptedException, ExecutionException, IOException
-    {
-		Shopkeeper s = shopkeeperService.updateShopkeeperImage(file,shopKeeperId); 
-		return new ResponseEntity<Shopkeeper>(s,HttpStatus.OK);
-    }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
+			@RequestParam("shopkeeperId") String shopkeeperId)
+			throws InterruptedException, ExecutionException, IOException {
+		Shopkeeper s = shopkeeperService.updateShopkeeperImage(file, shopkeeperId);
+		return new ResponseEntity<Shopkeeper>(s, HttpStatus.OK);
+	}
 }

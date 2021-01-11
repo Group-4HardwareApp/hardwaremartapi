@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Order implements Serializable {
-	private String shopkeeperId;
 	private String orderId;
 	private String userId;
 	private String name;
@@ -39,14 +38,6 @@ public class Order implements Serializable {
 		this.itemList = itemList;
 		this.paymentOption = paymentOption;
 		this.timestamp = timestamp;
-	}
-
-	public String getShopkeeperId() {
-		return shopkeeperId;
-	}
-
-	public void setShopkeeperId(String shopkeeperId) {
-		this.shopkeeperId = shopkeeperId;
 	}
 
 	public String getPaymentOption() {

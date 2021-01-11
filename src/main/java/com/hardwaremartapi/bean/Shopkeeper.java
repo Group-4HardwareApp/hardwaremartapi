@@ -2,7 +2,7 @@ package com.hardwaremartapi.bean;
 
 public class Shopkeeper {
 	private String name;
-	private String shopKeeperId;
+	private String shopkeeperId;
 	private String shopName;
 	private String contactNumber;
 	private String address;
@@ -13,7 +13,7 @@ public class Shopkeeper {
 	public Shopkeeper(String shopKeeperId, String shopName, String contactNumber, String address, String imageUrl,
 			String email, String token, String name) {
 		super();
-		this.shopKeeperId = shopKeeperId;
+		this.shopkeeperId = shopKeeperId;
 		this.shopName = shopName;
 		this.contactNumber = contactNumber;
 		this.address = address;
@@ -26,12 +26,12 @@ public class Shopkeeper {
 	public Shopkeeper() {
 	}
 
-	public String getShopKeeperId() {
-		return shopKeeperId;
+	public String getShopkeeperId() {
+		return shopkeeperId;
 	}
 
-	public void setShopKeeperId(String shopKeeperId) {
-		this.shopKeeperId = shopKeeperId;
+	public void setShopkeeperId(String shopKeeperId) {
+		this.shopkeeperId = shopKeeperId;
 	}
 
 	public String getShopName() {

@@ -1,8 +1,5 @@
 package com.hardwaremartapi.bean;
 
-import java.util.ArrayList;
-import java.util.Map;
-
 public class Product {
 	private String productId;
 	private String categoryId;
@@ -13,6 +10,8 @@ public class Product {
 	private String brand;
 	private int qtyInStock;
 	private String imageUrl;
+	private String secondImageUrl;
+	private String thirdImageurl;
 	private String description;
 	private long timestamp;
 
@@ -20,7 +19,8 @@ public class Product {
 	}
 
 	public Product(String productId, String categoryId, String shopKeeperId, String name, double price, double discount,
-			String brand, int qtyInStock, String imageUrl, String description, long timestamp) {
+			String brand, int qtyInStock, String imageUrl, String secondImageUrl, String thirdImageurl,
+			String description, long timestamp) {
 		super();
 		this.productId = productId;
 		this.categoryId = categoryId;
@@ -29,10 +29,28 @@ public class Product {
 		this.price = price;
 		this.discount = discount;
 		this.brand = brand;
+		this.secondImageUrl = secondImageUrl;
+		this.thirdImageurl = thirdImageurl;
 		this.qtyInStock = qtyInStock;
 		this.imageUrl = imageUrl;
 		this.description = description;
 		this.timestamp = timestamp;
+	}
+
+	public String getSecondImageUrl() {
+		return secondImageUrl;
+	}
+
+	public void setSecondImageUrl(String secondImageUrl) {
+		this.secondImageUrl = secondImageUrl;
+	}
+
+	public String getThirdImageurl() {
+		return thirdImageurl;
+	}
+
+	public void setThirdImageurl(String thirdImageurl) {
+		this.thirdImageurl = thirdImageurl;
 	}
 
 	public String getProductId() {

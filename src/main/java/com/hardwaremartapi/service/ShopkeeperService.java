@@ -21,7 +21,7 @@ public class ShopkeeperService {
 		FileUtility fileUtility = new FileUtility();
 		String imageUrl = fileUtility.uploadFile(file);
 		shopkeeper.setImageUrl(imageUrl);
-		firestoredatabase.collection("Shopkeeper").document(shopkeeper.getShopKeeperId()).set(shopkeeper);
+		firestoredatabase.collection("Shopkeeper").document(shopkeeper.getShopkeeperId()).set(shopkeeper);
 		return shopkeeper;
 	}
 
@@ -33,22 +33,22 @@ public class ShopkeeperService {
 
 	public Shopkeeper updateShopkeeper(Shopkeeper shopkeeper) throws InterruptedException, ExecutionException {
 		Firestore fireStore = FirestoreClient.getFirestore();
-		Shopkeeper s0 = fireStore.collection("Shopkeeper").document(shopkeeper.getShopKeeperId()).get().get()
+		Shopkeeper s0 = fireStore.collection("Shopkeeper").document(shopkeeper.getShopkeeperId()).get().get()
 				.toObject(Shopkeeper.class);
 		shopkeeper.setImageUrl(s0.getImageUrl());
-		fireStore.collection("Shopkeeper").document(shopkeeper.getShopKeeperId()).set(shopkeeper);
+		fireStore.collection("Shopkeeper").document(shopkeeper.getShopkeeperId()).set(shopkeeper);
 		return shopkeeper;
 	}
 
-	public Shopkeeper updateShopkeeperImage(MultipartFile file, String shopKeeperId)
+	public Shopkeeper updateShopkeeperImage(MultipartFile file, String shopkeeperId)
 			throws InterruptedException, ExecutionException, IOException {
 		Firestore fireStore = FirestoreClient.getFirestore();
-		Shopkeeper shopkeeper = fireStore.collection("Shopkeeper").document(shopKeeperId).get().get()
+		Shopkeeper shopkeeper = fireStore.collection("Shopkeeper").document(shopkeeperId).get().get()
 				.toObject(Shopkeeper.class);
 		FileUtility fileUtility = new FileUtility();
 		String imageUrl = fileUtility.uploadFile(file);
 		shopkeeper.setImageUrl(imageUrl);
-		fireStore.collection("Shopkeeper").document(shopKeeperId).set(shopkeeper);
+		fireStore.collection("Shopkeeper").document(shopkeeperId).set(shopkeeper);
 		return shopkeeper;
 	}
 }

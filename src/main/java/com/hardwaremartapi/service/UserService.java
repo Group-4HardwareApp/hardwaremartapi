@@ -15,10 +15,10 @@ import com.hardwaremartapi.bean.User;
 @Service
 public class UserService {
 
-	FileUtility fileUtility = new FileUtility();
 	Firestore fireStore = FirestoreClient.getFirestore();
-	
+
 	public User saveUser(MultipartFile file, User user) throws Exception {
+		FileUtility fileUtility = new FileUtility();
 		Firestore firestoredatabase = FirestoreClient.getFirestore();
 		String imageUrl = fileUtility.uploadFile(file);
 		user.setImageUrl(imageUrl);
@@ -42,24 +42,23 @@ public class UserService {
 		fireStore.collection("User").document(userId).set(user);
 		return user;
 	}
-	
-	public User updateUser(MultipartFile file, User user)
-			throws IOException, InterruptedException, Exception {
-	
-		String imageUrl = fileUtility.uploadFile(file);	
+
+	public User updateUser(MultipartFile file, User user) throws IOException, InterruptedException, Exception {
+		FileUtility fileUtility = new FileUtility();
+		String imageUrl = fileUtility.uploadFile(file);
 		user.setImageUrl(imageUrl);
 		user.setUserId(user.getUserId());
 		fireStore.collection("User").document(user.getUserId()).set(user);
 		return user;
 	}
-	
+
 	public User updateUserWithoutImage(User user) throws IOException, InterruptedException, Exception {
 		fireStore.collection("User").document(user.getUserId()).set(user);
 		return user;
 	}
 
 	public User getUserDetails(String currentUserId) throws Exception, Exception {
-	    User user = fireStore.collection("User").document(currentUserId).get().get().toObject(User.class); 	
+		User user = fireStore.collection("User").document(currentUserId).get().get().toObject(User.class);
 		return user;
 	}
 }
