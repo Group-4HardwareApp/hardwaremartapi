@@ -30,10 +30,10 @@ import com.hardwaremartapi.bean.PurchaseOrder;
 @Service
 public class OrderService {
 
-	Firestore fireStore = FirestoreClient.getFirestore();
 	OrderItems orderItem = new OrderItems();
 
 	public Order placeOrders(Order order) {
+		Firestore fireStore = FirestoreClient.getFirestore();
 		String orderId = fireStore.collection("Order").document().getId().toString();
 		order.setTimestamp(System.currentTimeMillis());
 		order.setOrderId(orderId);
@@ -42,6 +42,7 @@ public class OrderService {
 	}
 
 	public OrderCart placeCartOrders(OrderCart order) {
+		Firestore fireStore = FirestoreClient.getFirestore();
 		String orderId = fireStore.collection("Order").document().getId().toString();
 		order.setTimestamp(System.currentTimeMillis());
 		order.setOrderId(orderId);
@@ -50,11 +51,14 @@ public class OrderService {
 	}
 
 	public Order getOrderById(String id) throws InterruptedException, ExecutionException {
+		Firestore fireStore = FirestoreClient.getFirestore();
 		Order order = fireStore.collection("Order").document(id).get().get().toObject(Order.class);
 		return order;
 	}
 
+
 	public Order deleteOrder(String orderId) throws InterruptedException, ExecutionException {
+		Firestore fireStore = FirestoreClient.getFirestore();
 		Order order = fireStore.collection("Order").document(orderId).get().get().toObject(Order.class);
 		if (order != null) {
 			fireStore.collection("Order").document(orderId).delete();
@@ -63,18 +67,20 @@ public class OrderService {
 	}
 	
 	public Order cancelOrder(String orderId) throws InterruptedException, ExecutionException {
+        Firestore fireStore = FirestoreClient.getFirestore();        
         Order order = fireStore.collection("Order").document(orderId).get().get().toObject(Order.class);
         if(order != null) {
         	String ship = order.getShippingStatus();
         	if(ship.equals("Onway")){
         		order.setShippingStatus("Cancelled");
-        	    fireStore.collection("Order").document(orderId).set(order);
+        	  fireStore.collection("Order").document(orderId).set(order);
         	}
         }
 		return order;
 	}
 
 	public ArrayList<Order> getOrders(String userId) throws Exception, Exception {
+		Firestore fireStore = FirestoreClient.getFirestore();
 		ArrayList<Order> list = new ArrayList<Order>();
 		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Order").whereEqualTo("userId", userId).get();
 		QuerySnapshot querySnapshot = apiFuture.get();
@@ -89,6 +95,7 @@ public class OrderService {
 	}
 
 	public ArrayList<Order> getActiveOrders(String userId) throws Exception, Exception {
+		Firestore fireStore = FirestoreClient.getFirestore();
 		ArrayList<Order> list = new ArrayList<Order>();
 		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Order").whereEqualTo("userId", userId).get();
 		QuerySnapshot querySnapshot = apiFuture.get();
@@ -105,6 +112,7 @@ public class OrderService {
 	}
 
 	public ArrayList<Order> getDeliveredOrders(String userId) throws Exception, Exception {
+		Firestore fireStore = FirestoreClient.getFirestore();
 		ArrayList<Order> list = new ArrayList<Order>();
 		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Order").whereEqualTo("userId", userId).get();
 		QuerySnapshot querySnapshot = apiFuture.get();
@@ -121,6 +129,7 @@ public class OrderService {
 	}
 
 	public ArrayList<Order> getCancelledOrders(String userId) throws Exception, Exception {
+		Firestore fireStore = FirestoreClient.getFirestore();
 		ArrayList<Order> list = new ArrayList<Order>();
 		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Order").whereEqualTo("userId", userId).get();
 		QuerySnapshot querySnapshot = apiFuture.get();
@@ -138,6 +147,7 @@ public class OrderService {
 
 	public ArrayList<Order> getOrderOfCurrentUser(String currentUserId)
 			throws InterruptedException, ExecutionException {
+		Firestore fireStore = FirestoreClient.getFirestore();
 		ArrayList<Order> list = new ArrayList<>();
 		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Order").whereEqualTo("userId", currentUserId).get();
 		QuerySnapshot snapshot = apiFuture.get();
@@ -151,6 +161,7 @@ public class OrderService {
 
 	public ArrayList<PurchaseOrder> getPurchaseOrder(String shopkeeperId)
 			throws InterruptedException, ExecutionException {
+		Firestore fireStore = FirestoreClient.getFirestore();
 		ArrayList<PurchaseOrder> purchaseOrderList = new ArrayList<>();
 
 		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Order")
@@ -191,6 +202,7 @@ public class OrderService {
 
 	public ArrayList<PurchaseOrder> getOnGoingOrder(String shopkeeperId)
 			throws InterruptedException, ExecutionException {
+		Firestore fireStore = FirestoreClient.getFirestore();
 		ArrayList<PurchaseOrder> purchaseOrderList = new ArrayList<>();
 
 		ApiFuture<QuerySnapshot> apiFuture = fireStore.collection("Order")

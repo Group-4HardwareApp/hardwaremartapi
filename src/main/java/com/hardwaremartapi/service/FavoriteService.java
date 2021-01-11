@@ -14,9 +14,10 @@ import com.hardwaremartapi.exception.ResourceNotFoundException;
 
 @Service
 public class FavoriteService {
-	Firestore firestore = FirestoreClient.getFirestore();
+	
 
 	public Favorite addFavorite(Favorite favorite) throws IOException {
+		Firestore firestore = FirestoreClient.getFirestore();
 		String favoriteId = firestore.collection("Favorite").document().getId().toString();
 		favorite.setFavoriteId(favoriteId);
 		firestore.collection("Favorite").document(favoriteId).set(favorite);
@@ -25,7 +26,7 @@ public class FavoriteService {
 
 	public Favorite removeFavorite(String id)
 			throws InterruptedException, ExecutionException, ResourceNotFoundException {
-
+		Firestore firestore = FirestoreClient.getFirestore();
 		DocumentReference documentReference = firestore.collection("Favorite").document(id);
 		Favorite favorite = documentReference.get().get().toObject(Favorite.class);
 		if (favorite != null)
