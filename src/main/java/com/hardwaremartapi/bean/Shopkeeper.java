@@ -10,10 +10,10 @@ public class Shopkeeper {
 	private String email;
 	private String token;
 
-	public Shopkeeper(String shopKeeperId, String shopName, String contactNumber, String address, String imageUrl,
+	public Shopkeeper(String shopkeeperId, String shopName, String contactNumber, String address, String imageUrl,
 			String email, String token, String name) {
 		super();
-		this.shopkeeperId = shopKeeperId;
+		this.shopkeeperId = shopkeeperId;
 		this.shopName = shopName;
 		this.contactNumber = contactNumber;
 		this.address = address;
@@ -30,8 +30,8 @@ public class Shopkeeper {
 		return shopkeeperId;
 	}
 
-	public void setShopkeeperId(String shopKeeperId) {
-		this.shopkeeperId = shopKeeperId;
+	public void setShopkeeperId(String shopkeeperId) {
+		this.shopkeeperId = shopkeeperId;
 	}
 
 	public String getShopName() {
@@ -89,6 +89,4 @@ public class Shopkeeper {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	
 }

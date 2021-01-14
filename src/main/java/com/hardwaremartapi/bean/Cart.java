@@ -17,7 +17,7 @@ public class Cart {
     
     
 	public Cart(String cartId, String userId, String categoryId, String productId, String name, double price,
-			String brand, String imageUrl, String description, String shopKeeperId, int qty, double total) {
+			String brand, String imageUrl, String description, String shopkeeperId, int qty, double total) {
 		super();
 		this.cartId = cartId;
 		this.userId = userId;
@@ -28,7 +28,7 @@ public class Cart {
 		this.brand = brand;
 		this.imageUrl = imageUrl;
 		this.description = description;
-		this.shopkeeperId = shopKeeperId;
+		this.shopkeeperId = shopkeeperId;
 		this.qty = qty;
 		this.total = total;
 	}
@@ -132,12 +132,12 @@ public class Cart {
 		this.description = description;
 	}
 
-	public String getShopKeeperId() {
+	public String getShopkeeperId() {
 		return shopkeeperId;
 	}
 
-	public void setShopKeeperId(String shopKeeperId) {
-		this.shopkeeperId = shopKeeperId;
+	public void setShopkeeperId(String shopkeeperId) {
+		this.shopkeeperId = shopkeeperId;
 	}
 
 }
