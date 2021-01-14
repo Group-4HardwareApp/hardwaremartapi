@@ -141,7 +141,7 @@ public class ProductService {
 		Product p0 = fireStore.collection("Product").document(product.getProductId()).get().get()
 				.toObject(Product.class);
 		product.setTimestamp(System.currentTimeMillis());
-		product.setShopKeeperId(p0.getShopKeeperId());
+		product.setShopkeeperId(p0.getShopkeeperId());
 		product.setImageUrl(p0.getImageUrl());
 		product.setSecondImageUrl(p0.getSecondImageUrl());
 		product.setThirdImageurl(p0.getThirdImageurl());
@@ -175,7 +175,7 @@ public class ProductService {
 			Product product = document.toObject(Product.class);
 			name = name.toLowerCase();
 			String doc = product.getName().toLowerCase();
-			String doc2 = product.getShopKeeperId();
+			String doc2 = product.getShopkeeperId();
 			if (doc.contains(name) && doc2.contains(id)) {
 				pl.add(product);
 			}
@@ -183,7 +183,7 @@ public class ProductService {
 		return pl;
 	}
 
-	public ArrayList<Product> getProductByCategoryAndShopKeeper(String categoryId, String shopkeerperId)
+	public ArrayList<Product> getProductByCategoryAndShopKeeper(String categoryId, String shopkeeperId)
 			throws InterruptedException, ExecutionException {
 		Firestore fireStore = FirestoreClient.getFirestore();
 		ArrayList<Product> pl = new ArrayList<Product>();
@@ -193,7 +193,7 @@ public class ProductService {
 		for (QueryDocumentSnapshot document : documentSnapshotList) {
 			Product product = document.toObject(Product.class);
 			if ((categoryId.equals(document.getString("categoryId")))
-					&& (shopkeerperId.equals(document.getString("shopKeeperId")))) {
+					&& (shopkeeperId.equals(document.getString("shopkeeperId")))) {
 				pl.add(product);
 			}
 		}

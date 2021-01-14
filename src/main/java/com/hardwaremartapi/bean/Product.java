@@ -3,7 +3,7 @@ package com.hardwaremartapi.bean;
 public class Product {
 	private String productId;
 	private String categoryId;
-	private String shopKeeperId;
+	private String shopkeeperId;
 	private String name;
 	private double price;
 	private double discount;
@@ -18,13 +18,13 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(String productId, String categoryId, String shopKeeperId, String name, double price, double discount,
+	public Product(String productId, String categoryId, String shopkeeperId, String name, double price, double discount,
 			String brand, int qtyInStock, String imageUrl, String secondImageUrl, String thirdImageurl,
 			String description, long timestamp) {
 		super();
 		this.productId = productId;
 		this.categoryId = categoryId;
-		this.shopKeeperId = shopKeeperId;
+		this.shopkeeperId = shopkeeperId;
 		this.name = name;
 		this.price = price;
 		this.discount = discount;
@@ -69,12 +69,12 @@ public class Product {
 		this.categoryId = categoryId;
 	}
 
-	public String getShopKeeperId() {
-		return shopKeeperId;
+	public String getShopkeeperId() {
+		return shopkeeperId;
 	}
 
-	public void setShopKeeperId(String shopKeeperId) {
-		this.shopKeeperId = shopKeeperId;
+	public void setShopkeeperId(String shopkeeperId) {
+		this.shopkeeperId = shopkeeperId;
 	}
 
 	public String getName() {

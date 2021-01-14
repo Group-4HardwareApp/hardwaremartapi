@@ -36,7 +36,7 @@ public class ProductController {
 	   public ResponseEntity<Product> savedProduct(@RequestParam("file")MultipartFile file,
 	   		@RequestParam("file2")MultipartFile file2,
 	   		@RequestParam("file3")MultipartFile file3,
-	   		@RequestParam("categoryId") String categoryId, @RequestParam("shopKeeperId") String shopKeeperId,
+	   		@RequestParam("categoryId") String categoryId, @RequestParam("shopkeeperId") String shopkeeperId,
 	   		@RequestParam("name") String name, @RequestParam("price") double price,
 	   		@RequestParam("discount") double discount, @RequestParam("brand") String brand,
 	   		@RequestParam("qtyInStock") int qtyInStock, @RequestParam("description") String description)		
@@ -48,7 +48,7 @@ public class ProductController {
 
 	   	Product product = new Product();
 	   	product.setCategoryId(categoryId);
-	   	product.setShopKeeperId(shopKeeperId);
+	   	product.setShopkeeperId(shopkeeperId);
 	   	product.setName(name);
 	   	product.setPrice(price);
 	   	product.setDiscount(discount);
@@ -61,7 +61,7 @@ public class ProductController {
 	
 	@PostMapping("/")
 	public ResponseEntity<Product> saveProduct(@RequestParam("file") MultipartFile file,
-			@RequestParam("categoryId") String categoryId, @RequestParam("shopKeeperId") String shopKeeperId,
+			@RequestParam("categoryId") String categoryId, @RequestParam("shopkeeperId") String shopkeeperId,
 			@RequestParam("name") String name, @RequestParam("price") double price,
 			@RequestParam("discount") double discount, @RequestParam("brand") String brand,
 			@RequestParam("qtyInStock") int qtyInStock, @RequestParam("description") String description)
@@ -73,7 +73,7 @@ public class ProductController {
 
 		Product product = new Product();
 		product.setCategoryId(categoryId);
-		product.setShopKeeperId(shopKeeperId);
+		product.setShopkeeperId(shopkeeperId);
 		product.setName(name);
 		product.setPrice(price);
 		product.setDiscount(discount);
@@ -174,11 +174,11 @@ public class ProductController {
 		}
 	}
 
-	@GetMapping("/productlist/{categoryId}/{shopkeerperId}")
+	@GetMapping("/productlist/{categoryId}/{shopkeeperId}")
 	public ResponseEntity<List<Product>> getProductByCategoryAndShopKeeper(
-			@PathVariable("categoryId") String categoryId, @PathVariable("shopkeerperId") String shopkeerperId)
+			@PathVariable("categoryId") String categoryId, @PathVariable("shopkeeperId") String shopkeeperId)
 			throws InterruptedException, ExecutionException, ResourceNotFoundException {
-		ArrayList<Product> productList = productService.getProductByCategoryAndShopKeeper(categoryId, shopkeerperId);
+		ArrayList<Product> productList = productService.getProductByCategoryAndShopKeeper(categoryId, shopkeeperId);
 		if (productList != null) {
 			return new ResponseEntity<List<Product>>(productList, HttpStatus.OK);
 		} else {
