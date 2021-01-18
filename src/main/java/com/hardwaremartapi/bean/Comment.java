@@ -8,7 +8,7 @@ public class Comment {
 	private String userId;
 	private String comment;
 	private String productId;
-	private String rating;
+	private long rating;
 	private String userName;
 	private String userImg;
 
@@ -17,7 +17,7 @@ public class Comment {
 	}
 
 	public Comment(String date, long timestamp, String userId, String comment, String productId,
-			String rating, String userName, String userImg) {
+			long rating, String userName, String userImg) {
 		super();
 		this.date = date;
 		this.timestamp = timestamp;
@@ -93,11 +93,11 @@ public class Comment {
 		this.productId = productId;
 	}
 
-	public String getRating() {
+	public long getRating() {
 		return rating;
 	}
 
-	public void setRating(String rating) {
+	public void setRating(long rating) {
 		this.rating = rating;
 	}
 
