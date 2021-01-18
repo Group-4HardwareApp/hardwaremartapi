@@ -30,7 +30,7 @@ public class ShokeeperController {
 	@PostMapping("/")
 	public ResponseEntity<Shopkeeper> saveShopkeeper(@RequestParam("file") MultipartFile file,
 			@RequestParam("name") String name, @RequestParam("shopName") String shopName,
-			@RequestParam("shopkeeperId") String shopkeeperId, @RequestParam("contactNumber") String contactNumber,
+		    @RequestParam("contactNumber") String contactNumber,@RequestParam("shopkeeperId")String shopkeeperId,
 			@RequestParam("address") String address, @RequestParam("email") String email,
 			@RequestParam("token") String token) throws Exception {
 		Shopkeeper shopkeeper = new Shopkeeper();
