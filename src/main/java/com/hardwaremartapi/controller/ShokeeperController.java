@@ -70,4 +70,11 @@ public class ShokeeperController {
 		Shopkeeper s = shopkeeperService.updateShopkeeperImage(file, shopkeeperId);
 		return new ResponseEntity<Shopkeeper>(s, HttpStatus.OK);
 	}
+	
+	@PostMapping("/updatetoken/{shopkeeperId}/{token}")
+	public ResponseEntity<Shopkeeper> updateShopkeeperToken(@PathVariable("shopkeeperId") String shopkeeperId,@PathVariable("token") String token)
+			throws InterruptedException, ExecutionException {
+		Shopkeeper s = shopkeeperService.updateShopkeeperToken(shopkeeperId,token);
+		return new ResponseEntity<Shopkeeper>(s, HttpStatus.OK);
+	}
 }

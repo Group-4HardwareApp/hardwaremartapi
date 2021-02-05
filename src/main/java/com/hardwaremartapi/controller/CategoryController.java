@@ -20,37 +20,36 @@ import com.hardwaremartapi.service.CategoryService;
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
-  @Autowired	
-  CategoryService categoryService;
-  
-  @GetMapping("/")	
-  public ResponseEntity<?> getCategoryList() throws InterruptedException, ExecutionException{
-	List<Category>categoryList = categoryService.getCategoryList();  
-    return new ResponseEntity<List<Category>>(categoryList,HttpStatus.OK);
-  }
-  
-  @GetMapping("/{categoryId}")
-  public ResponseEntity<?> getCategoryById(@PathVariable("categoryId") String categoryId) throws InterruptedException, ExecutionException, ResourceNotFoundException{
-     Category c = categoryService.getCategoryById(categoryId);	  
-     if(c == null)
-    	 throw new ResourceNotFoundException("Category not found");
-     else
-    	 return new ResponseEntity<Category>(c,HttpStatus.OK);
-  }
-	
-@PostMapping("/save")
-  public ResponseEntity<Category> saveCategory(@RequestParam("file") MultipartFile file,
-		  @RequestParam("categoryName") String categoryName) throws Exception {
-	  if(file.isEmpty())
-		  throw new ResourceNotFoundException("File not found");
-	 
-	  Category category = new Category();
-	  category.setCategoryName(categoryName);
-	  
-	  Category c = categoryService.saveCategory(file, category);
-	  return new ResponseEntity<Category>(c,HttpStatus.OK);
-  }	
-	
-	
-	
+	@Autowired
+	CategoryService categoryService;
+
+	@GetMapping("/")
+	public ResponseEntity<?> getCategoryList() throws InterruptedException, ExecutionException {
+		List<Category> categoryList = categoryService.getCategoryList();
+		return new ResponseEntity<List<Category>>(categoryList, HttpStatus.OK);
+	}
+
+	@GetMapping("/{categoryId}")
+	public ResponseEntity<?> getCategoryById(@PathVariable("categoryId") String categoryId)
+			throws InterruptedException, ExecutionException, ResourceNotFoundException {
+		Category c = categoryService.getCategoryById(categoryId);
+		if (c == null)
+			throw new ResourceNotFoundException("Category not found");
+		else
+			return new ResponseEntity<Category>(c, HttpStatus.OK);
+	}
+
+	@PostMapping("/save")
+	public ResponseEntity<Category> saveCategory(@RequestParam("file") MultipartFile file,
+			@RequestParam("categoryName") String categoryName) throws Exception {
+		if (file.isEmpty())
+			throw new ResourceNotFoundException("File not found");
+
+		Category category = new Category();
+		category.setCategoryName(categoryName);
+
+		Category c = categoryService.saveCategory(file, category);
+		return new ResponseEntity<Category>(c, HttpStatus.OK);
+	}
+
 }

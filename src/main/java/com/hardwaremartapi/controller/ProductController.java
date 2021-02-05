@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.gson.Gson;
 import com.hardwaremartapi.bean.Product;
 import com.hardwaremartapi.exception.ErrorDetails;
 import com.hardwaremartapi.exception.ResourceNotFoundException;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -31,58 +33,6 @@ public class ProductController {
 
 	@Autowired
 	ProductService productService;
-
-	   @PostMapping("/save")
-	   public ResponseEntity<Product> savedProduct(@RequestParam("file")MultipartFile file,
-	   		@RequestParam("file2")MultipartFile file2,
-	   		@RequestParam("file3")MultipartFile file3,
-	   		@RequestParam("categoryId") String categoryId, @RequestParam("shopkeeperId") String shopkeeperId,
-	   		@RequestParam("name") String name, @RequestParam("price") double price,
-	   		@RequestParam("discount") double discount, @RequestParam("brand") String brand,
-	   		@RequestParam("qtyInStock") int qtyInStock, @RequestParam("description") String description)		
-	   		throws ResourceNotFoundException, IOException {
-
-	   	if (file.isEmpty()) {
-	   		throw new ResourceNotFoundException("File not found");
-	   	}
-
-	   	Product product = new Product();
-	   	product.setCategoryId(categoryId);
-	   	product.setShopkeeperId(shopkeeperId);
-	   	product.setName(name);
-	   	product.setPrice(price);
-	   	product.setDiscount(discount);
-	   	product.setBrand(brand);
-	   	product.setDescription(description);
-	   	product.setQtyInStock(qtyInStock);
-	   	Product p = productService.savedproduct(file,file2,file3, product);
-	   	return new ResponseEntity<Product>(p, HttpStatus.OK);
-	   }
-	
-	@PostMapping("/")
-	public ResponseEntity<Product> saveProduct(@RequestParam("file") MultipartFile file,
-			@RequestParam("categoryId") String categoryId, @RequestParam("shopkeeperId") String shopkeeperId,
-			@RequestParam("name") String name, @RequestParam("price") double price,
-			@RequestParam("discount") double discount, @RequestParam("brand") String brand,
-			@RequestParam("qtyInStock") int qtyInStock, @RequestParam("description") String description)
-			throws ResourceNotFoundException, IOException {
-
-		if (file.isEmpty()) {
-			throw new ResourceNotFoundException("File not found");
-		}
-
-		Product product = new Product();
-		product.setCategoryId(categoryId);
-		product.setShopkeeperId(shopkeeperId);
-		product.setName(name);
-		product.setPrice(price);
-		product.setDiscount(discount);
-		product.setBrand(brand);
-		product.setDescription(description);
-		product.setQtyInStock(qtyInStock);
-		Product p = productService.saveProduct(file, product);
-		return new ResponseEntity<Product>(p, HttpStatus.OK);
-	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Product> deleteProduct(@PathVariable("id") String id)
@@ -153,15 +103,6 @@ public class ProductController {
 
 	}
 
-	@PostMapping("/updateproductimg")
-	public ResponseEntity<Product> updateProductImage(@RequestParam("file") MultipartFile file,
-			@RequestParam("file2") MultipartFile file2,
-			@RequestParam("file3") MultipartFile file3,
-			@RequestParam("productId") String productId) throws InterruptedException, ExecutionException, IOException {
-		Product p = productService.updateProductImage(file,file2,file3, productId);
-		return new ResponseEntity<Product>(p, HttpStatus.OK);
-	}
-	
 	@GetMapping("/shopkeeperproducts/{name}/{shopkeeperId}")
 	public ResponseEntity<List<Product>> viewProductOfShopkeeper(@PathVariable("name") String name,
 			@PathVariable("shopkeeperId") String id)
@@ -185,4 +126,35 @@ public class ProductController {
 			throw new ResourceNotFoundException("Product Not Found");
 		}
 	}
+
+	@PostMapping("/uploadmultimages")
+	public ResponseEntity<Product> multProductImages(@RequestParam("file") List<MultipartFile> file,
+			@RequestParam("categoryId") String categoryId, @RequestParam("shopkeeperId") String shopkeeperId,
+			@RequestParam("name") String name, @RequestParam("price") double price,
+			@RequestParam("discount") double discount, @RequestParam("brand") String brand,
+			@RequestParam("qtyInStock") int qtyInStock, @RequestParam("description") String description)
+			throws Exception {
+		Product product = new Product();
+		product.setCategoryId(categoryId);
+		product.setShopkeeperId(shopkeeperId);
+		product.setName(name);
+		product.setPrice(price);
+		product.setDiscount(discount);
+		product.setBrand(brand);
+		product.setDescription(description);
+		product.setQtyInStock(qtyInStock);
+		Product p = productService.multProductImages(file, product);
+		return new ResponseEntity<Product>(p, HttpStatus.OK);
+
+	}
+
+	@PostMapping("/updateproductimg")
+	public ResponseEntity<Product> updateProductImage(@RequestParam("file") List<MultipartFile> file,
+			@RequestParam("productId") String productId, @RequestParam("arr") int arr[])
+			throws InterruptedException, ExecutionException, IOException {
+		System.out.println("***");
+		Product p = productService.updateProductImage(file, productId, arr);
+		return new ResponseEntity<Product>(p, HttpStatus.OK);
+	}
+
 }

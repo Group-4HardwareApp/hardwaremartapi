@@ -5,12 +5,15 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import org.apache.commons.lang3.ObjectUtils.Null;
+import org.apache.tomcat.jni.File;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.api.core.ApiFuture;
@@ -26,36 +29,6 @@ import com.hardwaremartapi.bean.Product;
 
 @Service
 public class ProductService {
-
-	public Product savedproduct(MultipartFile file, MultipartFile file2, MultipartFile file3, Product product)
-			throws IOException {
-		FileUtility fileUtility = new FileUtility();
-		String imageUrl = fileUtility.uploadFile(file);
-		product.setImageUrl(imageUrl);
-		String secondImageUrl = fileUtility.uploadFile(file2);
-		product.setSecondImageUrl(secondImageUrl);
-		String thirdImageurl = fileUtility.uploadFile(file3);
-		product.setThirdImageurl(thirdImageurl);
-		Firestore fireStore = FirestoreClient.getFirestore();
-		product.setTimestamp(System.currentTimeMillis());
-		String productId = fireStore.collection("Product").document().getId().toString();
-		product.setProductId(productId);
-		fireStore.collection("Product").document(productId).set(product);
-		return product;
-	}
-
-	public Product saveProduct(MultipartFile file, Product product) throws IOException {
-		FileUtility fileUtility = new FileUtility();
-		String imageUrl = fileUtility.uploadFile(file);
-		product.setImageUrl(imageUrl);
-		Firestore fireStore = FirestoreClient.getFirestore();
-		product.setTimestamp(System.currentTimeMillis());
-		String productId = fireStore.collection("Product").document().getId().toString();
-		product.setProductId(productId);
-		fireStore.collection("Product").document(productId).set(product);
-		return product;
-	}
-
 	public Product deleteProduct(String id) throws InterruptedException, ExecutionException {
 		Firestore fireStore = FirestoreClient.getFirestore();
 		Product product = fireStore.collection("Product").document(id).get().get().toObject(Product.class);
@@ -149,21 +122,6 @@ public class ProductService {
 		return product;
 	}
 
-	public Product updateProductImage(MultipartFile file, MultipartFile file2, MultipartFile file3, String productId)
-			throws InterruptedException, ExecutionException, IOException {
-		Firestore fireStore = FirestoreClient.getFirestore();
-		Product product = fireStore.collection("Product").document(productId).get().get().toObject(Product.class);
-		FileUtility fileUtility = new FileUtility();
-		String imageUrl = fileUtility.uploadFile(file);
-		product.setImageUrl(imageUrl);
-		String secondImageUrl = fileUtility.uploadFile(file2);
-		product.setSecondImageUrl(secondImageUrl);
-		String thirdImageurl = fileUtility.uploadFile(file3);
-		product.setThirdImageurl(thirdImageurl);
-		fireStore.collection("Product").document(productId).set(product);
-		return product;
-	}
-
 	public ArrayList<Product> viewProductOfShopkeeper(String name, String id)
 			throws InterruptedException, ExecutionException {
 		Firestore fireStore = FirestoreClient.getFirestore();
@@ -198,5 +156,154 @@ public class ProductService {
 			}
 		}
 		return pl;
+	}
+
+	public Product updateProductImages(ArrayList<MultipartFile> file, String productId)
+			throws InterruptedException, ExecutionException, IOException {
+		Firestore fireStore = FirestoreClient.getFirestore();
+		Product product = fireStore.collection("Product").document(productId).get().get().toObject(Product.class);
+		if (file.size() > 0) {
+			String firstImageUrl = new FileUtility().uploadFile(file.get(0));
+			product.setImageUrl(firstImageUrl);
+			System.out.println("img1" + firstImageUrl);
+			if (file.size() >= 2) {
+				String secondImageUrl = new FileUtility().uploadFile(file.get(1));
+				product.setSecondImageUrl(secondImageUrl);
+				System.out.println("img2" + secondImageUrl);
+				if (file.size() == 3) {
+					String thirdImageUrl = new FileUtility().uploadFile(file.get(2));
+					product.setThirdImageurl(thirdImageUrl);
+					System.out.println("img3" + thirdImageUrl);
+				}
+			}
+		}
+		product.setTimestamp(System.currentTimeMillis());
+		fireStore.collection("Product").document(productId).set(product);
+		return product;
+	}
+
+	public Product updateProductImage(List<MultipartFile> files, String productId, int arr[])
+			throws InterruptedException, ExecutionException, IOException {
+
+		System.out.print("Oth" + arr[0] + " 1st" + arr[1] + "2nd" + arr[2]);
+		System.out.println("Update Image method");
+		System.out.println("Length : " + files.size());
+		System.out.println("------");
+		Firestore firestoredatabase = FirestoreClient.getFirestore();
+		Product product = firestoredatabase.collection("Product").document(productId).get().get()
+				.toObject(Product.class);
+
+		if (files.size() == 1) {
+			if (arr[0] == 1) {
+				String firstImageUrl = new FileUtility().uploadFile(files.get(0));
+				product.setImageUrl(firstImageUrl);
+				System.out.println("img1" + firstImageUrl);
+			}
+
+			if (arr[1] == 2) {
+				String secondImageUrl = new FileUtility().uploadFile(files.get(0));
+				product.setSecondImageUrl(secondImageUrl);
+				System.out.println("img2" + secondImageUrl);
+			}
+
+			if (arr[2] == 3) {
+//				if (files.size() == 1 || files.size() == 2 || files.size() == 3) {
+				String thirdImageUrl = new FileUtility().uploadFile(files.get(0));
+				product.setThirdImageurl(thirdImageUrl);
+				System.out.println("img3" + thirdImageUrl);
+			}
+		}
+
+		if (files.size() == 2) {
+			if (arr[0] == 1 && arr[1] == 2) {
+				String firstImageUrl = new FileUtility().uploadFile(files.get(0));
+				product.setImageUrl(firstImageUrl);
+				System.out.println("img1" + firstImageUrl);
+
+				String secondImageUrl = new FileUtility().uploadFile(files.get(1));
+				product.setSecondImageUrl(secondImageUrl);
+				System.out.println("img2" + secondImageUrl);
+			}
+
+			else if (arr[0] == 1 && arr[2] == 3) {
+				String firstImageUrl = new FileUtility().uploadFile(files.get(0));
+				product.setImageUrl(firstImageUrl);
+				System.out.println("img1" + firstImageUrl);
+
+				String thirdImageUrl = new FileUtility().uploadFile(files.get(1));
+				product.setThirdImageurl(thirdImageUrl);
+				System.out.println("img3" + thirdImageUrl);
+			}
+
+			else if (arr[1] == 2 && arr[2] == 3) {
+				String secondImageUrl = new FileUtility().uploadFile(files.get(0));
+				product.setSecondImageUrl(secondImageUrl);
+				System.out.println("img2" + secondImageUrl);
+
+				String thirdImageUrl = new FileUtility().uploadFile(files.get(1));
+				product.setThirdImageurl(thirdImageUrl);
+				System.out.println("img3" + thirdImageUrl);
+			}
+		}
+		if (files.size() == 3) {
+			if (arr[0] == 1) {
+				String firstImageUrl = new FileUtility().uploadFile(files.get(0));
+				product.setImageUrl(firstImageUrl);
+				System.out.println("img1" + firstImageUrl);
+			}
+
+			if (arr[1] == 2) {
+				String secondImageUrl = new FileUtility().uploadFile(files.get(0));
+				product.setSecondImageUrl(secondImageUrl);
+				System.out.println("img2" + secondImageUrl);
+			}
+
+			if (arr[2] == 3) {
+				String thirdImageUrl = new FileUtility().uploadFile(files.get(0));
+				product.setThirdImageurl(thirdImageUrl);
+				System.out.println("img3" + thirdImageUrl);
+			}
+		}
+		product.setTimestamp(System.currentTimeMillis());
+		firestoredatabase.collection("Product").document(productId).set(product);
+		return product;
+	}
+
+	public Product multProductImages(List<MultipartFile> files, Product product) throws IOException {
+		System.out.println("Length : " + files.size());
+		System.out.println("------");
+		Firestore firestoredatabase = FirestoreClient.getFirestore();
+		String productId = firestoredatabase.collection("Product").document().getId().toString();
+		product.setProductId(productId);
+
+		if (files.size() == 1) {
+			String firstImageUrl = new FileUtility().uploadFile(files.get(0));
+			product.setImageUrl(firstImageUrl);
+			System.out.println("img1" + firstImageUrl);
+		}
+		if (files.size() == 2) {
+			String firstImageUrl = new FileUtility().uploadFile(files.get(0));
+			product.setImageUrl(firstImageUrl);
+			System.out.println("img1" + firstImageUrl);
+			String secondImageUrl = new FileUtility().uploadFile(files.get(1));
+			product.setSecondImageUrl(secondImageUrl);
+			System.out.println("img2" + secondImageUrl);
+		}
+		if (files.size() == 3) {
+			String firstImageUrl = new FileUtility().uploadFile(files.get(0));
+			product.setImageUrl(firstImageUrl);
+			System.out.println("img1" + firstImageUrl);
+			String secondImageUrl = new FileUtility().uploadFile(files.get(1));
+			product.setSecondImageUrl(secondImageUrl);
+			System.out.println("img2" + secondImageUrl);
+			String thirdImageUrl = new FileUtility().uploadFile(files.get(2));
+			product.setThirdImageurl(thirdImageUrl);
+			System.out.println("img3" + thirdImageUrl);
+
+		}
+		product.setTimestamp(System.currentTimeMillis());
+		firestoredatabase.collection("Product").document(productId).set(product);
+		return product;
+
 	}
 }
