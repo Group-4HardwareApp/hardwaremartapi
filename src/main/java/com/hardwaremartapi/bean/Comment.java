@@ -8,7 +8,7 @@ public class Comment {
 	private String userId;
 	private String comment;
 	private String productId;
-	private long rating;
+	private float rating;
 	private String userName;
 	private String userImg;
 
@@ -17,7 +17,7 @@ public class Comment {
 	}
 
 	public Comment(String date, long timestamp, String userId, String comment, String productId,
-			long rating, String userName, String userImg) {
+			float rating, String userName, String userImg) {
 		super();
 		this.date = date;
 		this.timestamp = timestamp;
@@ -93,11 +93,11 @@ public class Comment {
 		this.productId = productId;
 	}
 
-	public long getRating() {
+	public float getRating() {
 		return rating;
 	}
 
-	public void setRating(long rating) {
+	public void setRating(float rating) {
 		this.rating = rating;
 	}
 

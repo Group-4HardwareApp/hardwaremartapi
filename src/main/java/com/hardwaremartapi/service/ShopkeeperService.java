@@ -51,4 +51,18 @@ public class ShopkeeperService {
 		fireStore.collection("Shopkeeper").document(shopkeeperId).set(shopkeeper);
 		return shopkeeper;
 	}
+
+	public Shopkeeper updateShopkeeperToken(String shopkeeperId,String token) throws InterruptedException, ExecutionException {
+		Firestore fireStore = FirestoreClient.getFirestore();
+		Shopkeeper shopkeeper = fireStore.collection("Shopkeeper").document(shopkeeperId).get().get()
+				.toObject(Shopkeeper.class);
+
+		String TOK=shopkeeper.getToken();
+		if(!TOK.equals(token))
+		{
+			shopkeeper.setToken(token);
+			fireStore.collection("Shopkeeper").document(shopkeeperId).set(shopkeeper);	
+		}
+		return shopkeeper;
+	}
 }
