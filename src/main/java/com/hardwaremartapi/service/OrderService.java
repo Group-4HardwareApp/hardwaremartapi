@@ -30,8 +30,7 @@ import com.hardwaremartapi.bean.PurchaseOrder;
 @Service
 public class OrderService {
 
-	OrderItems orderItem = new OrderItems();
-
+	
 	public Order placeOrders(Order order) {
 		Firestore fireStore = FirestoreClient.getFirestore();
 		String orderId = fireStore.collection("Order").document().getId().toString();
